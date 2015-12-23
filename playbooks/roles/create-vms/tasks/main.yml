@@ -1,0 +1,54 @@
+- name: Create VMs
+  vsphere_guest:
+   vcenter_hostname: "{{ vcenter_hostname }}"
+   username: "{{ vcenter_username }}"
+   password: "{{ vcenter_password }}"
+   guest: "{{ item }}"
+   cluster: "{{ vcenter_cluster }}"
+   resource_pool: "{{ resource_pool }}"
+   state: powered_on
+   vm_extra_config:
+     vhv.enable: yes
+   vm_disk:
+     disk1:
+       size_gb: 8
+       type: thin
+       datastore: Local-004
+   vm_nic:
+     nic1:
+       type: vmxnet3
+       network: VM Network
+       network_type: standard
+     nic2:
+       type: vmxnet3
+       network: PG-vMotion
+       network_type: standard
+     nic3:
+       type: vmxnet3
+       network: PG-Storage
+       network_type: standard
+     nic4:
+       type: vmxnet3
+       network: PG-Tenant
+       network_type: standard
+     nic5:
+       type: vmxnet3
+       network: PG-Public
+       network_type: standard
+   #vm_hw_version: vmx-09
+   vm_hardware:
+     memory_mb: 4096
+     num_cpus: 4
+     osid: vmkernel5Guest
+     scsi: lsi
+     vm_cdrom:
+       type: "iso"
+       iso_path: "{{ iso_path }}"
+   esxi:
+     datacenter: "{{ vm_datacenter }}"
+     hostname: 192.168.3.4
+  with_items:
+   - esxi1
+   - esxi2
+   - esxi3
+
