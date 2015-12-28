@@ -1,0 +1,3 @@
+- include: mount-iso.yml
+- include: deploy-ova.yml
+- include: check.yml

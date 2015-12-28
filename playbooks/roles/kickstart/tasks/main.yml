@@ -1,0 +1,61 @@
+- name: Gathering vmware_guest_facts
+  vsphere_guest:
+    vmware_guest_facts: yes
+    vcenter_hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    guest: "{{ inventory_hostname }}"
+  register: vmguest_facts
+  delegate_to: localhost
+  become: no
+
+#- name: Report mac addresses
+#  debug: msg="{{ hostvars[inventory_hostname]['hw_eth0']['macaddress'] }}"
+#  become: no
+
+- name: Retrieve info about the mount directory
+  stat: path= "{{ nfs_mount_dir_path }}"
+  register: mount_dir_stat_first
+  run_once: true
+
+- name: Create the mount directory
+  file: path="{{ nfs_mount_dir_path }}" state=directory mode=0755
+  when: mount_dir_stat_first.stat.exists == False
+  run_once: true
+
+- name: Ensure nfs mount
+  local_action: mount name="{{ nfs_mount_dir_path }}" src=192.168.5.99:/mnt/DroboFS/Shares/NFS fstype=nfs  state=mounted
+  run_once: true 
+
+- name: Preparing kickstart file (hostname.cfg)
+  local_action: shell echo "MMACADDR0		HOSTNAME" > /mnt/nfs/KS/hostname.cfg
+  run_once: true
+  become: no
+
+- name: Preparing kickstart file (hostname.cfg)
+  local_action: shell echo "----------------------	---------------" >> /mnt/nfs/KS/hostname.cfg
+  run_once: true
+  become: no
+
+- name: Export mac addresses to kickstart files (hostname.cfg)
+  #local_action: command echo "{{ hostvars[play_hosts]['hw_eth0']['macaddress'] }}\\t{{ item }}" >> /home/sotani/create-nested-esxi/hostname.cfg
+  local_action: shell echo "{{ hostvars[inventory_hostname]['hw_eth0']['macaddress'] }}\\t{{ hostname }}" >> /mnt/nfs/KS/hostname.cfg
+  become: no
+
+- name: Preparing kickstart file (ip.cfg)
+  local_action: shell echo "HOSTNAME	VMKernel	IP" > /mnt/nfs/KS/ip.cfg
+  run_once: true
+  become: no
+
+- name: Preparing kickstart file (ip.cfg)
+  local_action: shell echo "-------------	---------------	-----------" >>  /mnt/nfs/KS/ip.cfg
+  run_once: true
+  become: no
+
+- name: Export IP addresses to kickstart file (ip.cfg)
+  local_action: shell echo "{{ hostname }}\\t\\tvmk0\\t\\t{{ ipaddress }}" >>  /mnt/nfs/KS/ip.cfg
+  become: no
+
+#- name: Unmount NFS server
+#  local_action: mount name="{{ nfs_mount_dir_path }}" src=192.168.5.99:/mnt/DroboFS/Shares/NFS fstype=nfs  state=unmounted
+#  run_once: true

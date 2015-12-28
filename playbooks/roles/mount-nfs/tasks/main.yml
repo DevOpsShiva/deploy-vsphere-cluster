@@ -1,0 +1,15 @@
+- name: check if there is a nfs datastore
+  raw: esxcli storage nfs list | grep NFS | awk  '{print $1}'
+  register: result
+
+- debug: var=result.stdout
+
+- name: mount nfs
+  raw: esxcli storage  nfs add --host 192.168.5.99 --share=/mnt/DroboFS/Shares/NFS --volume-name=NFS-Remote1
+  when: result.stdout.find ("NFS-Remote1") != 0
+
+- name: check
+  raw: esxcli storage nfs list
+  register: result
+
+- debug: var=result.stdout_lines

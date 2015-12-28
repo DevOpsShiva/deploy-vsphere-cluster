@@ -1,0 +1,7 @@
+- name: Wait until vCSA is ready
+  wait_for:
+    port: 9443
+    host: "{{ vcsa_ip_address }}"
+    delay: 10
+    timeout: 3600
+  delegate_to: localhost

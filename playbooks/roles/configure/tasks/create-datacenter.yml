@@ -1,0 +1,5 @@
+- name: Create Datacenter
+  local_action: >
+        vmware_datacenter
+        hostname="192.168.3.100" username=administrator password=VMware1!
+        datacenter_name="DATACENTER" state=present

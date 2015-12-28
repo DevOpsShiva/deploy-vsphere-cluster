@@ -1,0 +1,11 @@
+- name: Create Cluster
+  local_action: >
+     vmware_cluster
+     hostname="{{ vcsa_hostname }}"
+     username="{{ vcsa_username }}"
+     password="{{ vcsa_password }}"
+     datacenter_name="{{ vcsa_datacenter }}"
+     cluster_name="{{ vcsa_cluster }}"
+     enable_ha=True
+     enable_drs=True
+     enable_vsan=False

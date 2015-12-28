@@ -1,0 +1,6 @@
+- hosts: esxi
+  gather_facts: false
+  any_errors_fatal: true
+  sudo: false
+  roles:
+    - { role: mount-nfs }

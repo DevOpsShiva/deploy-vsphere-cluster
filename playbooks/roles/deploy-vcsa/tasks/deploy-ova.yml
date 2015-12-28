@@ -1,0 +1,42 @@
+- name: Deploy the vCenter appliance with embedded PSC
+  command: >
+    {{ ovftool }}
+    --acceptAllEulas
+    --skipManifestCheck
+    --X:logFile=/home/sotani/ovftool.log
+    --X:logLevel=verbose
+    --X:logTransferHeaderData 
+    --X:injectOvfEnv
+    --allowExtraConfig
+    --noSSLVerify
+    --diskMode=thin
+    --X:injectOvfEnv
+    --X:httpTimeout='{{ ovftool_http_timeout }}'
+    --X:enableHiddenProperties
+    --X:waitForIp
+    --sourceType=OVA
+    "--powerOn"
+    "--net:Network 1={{ vcsa_portgroup }}"
+    --datastore='{{ vcsa_datastore }}'
+    --deploymentOption='{{ vcsa_deployment_option }}'
+    --name='{{ vcsa_appliance_name }}'
+    --prop:guestinfo.cis.vmdir.domain-name='{{ vcsa_sso_domain_name }}'
+    --prop:guestinfo.cis.vmdir.site-name='{{ vcsa_sso_site_name }}'
+    --prop:guestinfo.cis.vmdir.password='{{ vcsa_sso_password }}'
+    --prop:guestinfo.cis.appliance.net.addr.family=ipv4
+    --prop:guestinfo.cis.appliance.net.addr='{{ vcsa_ip_address }}'
+    --prop:guestinfo.cis.appliance.net.pnid='{{ vcsa_hostname }}'
+    --prop:guestinfo.cis.appliance.net.prefix='{{ vcsa_ip_netmask }}'
+    --prop:guestinfo.cis.appliance.net.mode="static"
+    --prop:guestinfo.cis.appliance.net.dns.servers='{{ vcsa_dns_server }}'
+    --prop:guestinfo.cis.appliance.net.gateway='{{ vcsa_ip_gateway }}'
+    --prop:guestinfo.cis.appliance.root.passwd='{{ vcsa_root_password }}'
+    --prop:guestinfo.cis.appliance.ssh.enabled='{{ vcsa_ssh_enable }}'
+    --prop:guestinfo.cis.appliance.ntp.servers='{{ vcsa_ntp_server }}'
+    '{{ iso_mount_dir_path }}/{{ vcsa_ova }}'
+    vi://'{{ vcenter_username }}':'{{ vcenter_password }}'@'{{ vcenter_hostname }}'/?dns='{{ vcsa_deploy_target_esxi }}'
+  register: deploy_result
+  ignore_errors: True
+  failed_when: "deploy_result.stderr not in ['already exists.',] and deploy_result.rc != 0"
+
+

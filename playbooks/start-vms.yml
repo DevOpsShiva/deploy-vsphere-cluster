@@ -5,4 +5,4 @@
   connection: local
   user: remote
   roles:
-    - { role: create-vms }
+    - { role: start-vms }

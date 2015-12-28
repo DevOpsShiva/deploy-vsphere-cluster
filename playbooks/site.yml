@@ -1,0 +1,6 @@
+- include: mount-nfs.yml
+- include: create-vms.yml
+#- include: unmount-nfs.yml
+- include: kickstart.yml
+- include: start-vms.yml
+- include: deploy-vcsa.yml

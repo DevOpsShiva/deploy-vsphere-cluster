@@ -1,8 +1,8 @@
-- hosts: nested_esxi
+- hosts: localhost
   gather_facts: false
   any_errors_fatal: true
-  sudo: false
+  sudo: true
   connection: local
   user: remote
   roles:
-    - { role: create-vms }
+    - { role: deploy-vcsa }
