@@ -1,8 +1,0 @@
-- hosts: nested_esxi
-  gather_facts: false
-  any_errors_fatal: true
-  sudo: false
-  connection: local
-  user: remote
-  roles:
-    - { role: create-vms }
