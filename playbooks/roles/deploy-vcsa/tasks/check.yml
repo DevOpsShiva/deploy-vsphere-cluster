@@ -3,5 +3,5 @@
     port: 9443
     host: "{{ vcsa_ip_address }}"
     delay: 10
-    timeout: 3600
+    timeout: 36000
   delegate_to: localhost

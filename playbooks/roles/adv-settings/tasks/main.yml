@@ -1,0 +1,62 @@
+- name: Check AllocGuestLargePage setting
+  raw: esxcli system settings advanced list -o  /Mem/AllocGuestLargePage
+  ignore_errors: yes
+  register: large_page_status
+
+- name: Set AllocGuestLargePage to 0
+  raw: esxcli system settings advanced set -o  /Mem/AllocGuestLargePage --int-value=0
+#  when: large_page_status.stdout.find("Int Value: 10") != 0
+
+- name: Check AllocGuestLargePage setting
+  raw: esxcli system settings advanced list -o  /Mem/AllocGuestLargePage
+  register: large_page_setting
+
+- name: Review AllocGuestLargePage setting
+  debug: var=large_page_setting.stdout_lines
+
+- name: Check ShareScanTime setting
+  raw: esxcli system settings advanced list -o  /Mem/ShareScanTime
+  ignore_errors: yes
+  register: share_scan_time_status
+
+- name: Set ShareScanTime to 10
+  raw: esxcli system settings advanced set -o  /Mem/ShareScanTime --int-value=10
+  #when: share_scan_time_status.stdout.find("Int Value: 1") != 0
+
+- name: Check ShareScanTime setting
+  raw: esxcli system settings advanced list -o  /Mem/ShareScanTime
+  register: share_scan_time_setting
+
+- name: Review settings
+  debug: var=share_scan_time_setting.stdout_lines
+
+- name: Check maintenance mode
+  raw: esxcli system maintenanceMode get
+  register: maintenance_mode
+
+- name: Go to maintenance mode
+  raw: esxcli system maintenanceMode set -e True
+  when: maintenance_mode.stdout.find("Disabled") != -1
+
+- name: Reboot
+  raw: esxcli system shutdown reboot -r "reboot by ansible"
+
+- name: Wait until hosts are ready
+  wait_for:
+    delay: 10
+    connect_timeout: 5
+    timeout: 300
+    path: /local.tgz
+    state: present
+  delegate_to: localhost
+
+- name: Check maintenance mode
+  raw: esxcli system maintenanceMode get
+  register: maintenance_mode
+
+- name: Exit from maintenance mode
+  raw: esxcli system maintenanceMode set -e False
+  when: maintenance_mode.stdout.find("Disabled") != 0
+
+
+ 

@@ -28,12 +28,12 @@
   run_once: true 
 
 - name: Preparing kickstart file (hostname.cfg)
-  local_action: shell echo "MMACADDR0		HOSTNAME" > /mnt/nfs/KS/hostname.cfg
+  local_action: shell echo "MMACADDR0\\tHOSTNAME" > /mnt/nfs/KS/hostname.cfg
   run_once: true
   become: no
 
 - name: Preparing kickstart file (hostname.cfg)
-  local_action: shell echo "----------------------	---------------" >> /mnt/nfs/KS/hostname.cfg
+  local_action: shell echo "----------------------\\t---------------" >> /mnt/nfs/KS/hostname.cfg
   run_once: true
   become: no
 
@@ -43,12 +43,12 @@
   become: no
 
 - name: Preparing kickstart file (ip.cfg)
-  local_action: shell echo "HOSTNAME	VMKernel	IP" > /mnt/nfs/KS/ip.cfg
+  local_action: shell echo "HOSTNAM\\tVMKernel\\tIP" > /mnt/nfs/KS/ip.cfg
   run_once: true
   become: no
 
 - name: Preparing kickstart file (ip.cfg)
-  local_action: shell echo "-------------	---------------	-----------" >>  /mnt/nfs/KS/ip.cfg
+  local_action: shell echo "------------\\t---------------\\t-----------" >>  /mnt/nfs/KS/ip.cfg
   run_once: true
   become: no
 

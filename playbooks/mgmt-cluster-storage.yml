@@ -1,0 +1,6 @@
+- hosts: management_cluster
+  gather_facts: false
+  any_errors_fatal: true
+  sudo: false
+  roles:
+    - { role: mgmt-cluster-storage }

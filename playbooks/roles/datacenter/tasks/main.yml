@@ -1,0 +1,9 @@
+- name: Create Datacenter
+  local_action: >
+        vmware_datacenter
+        hostname="{{  vcsa_hostname}}"
+        username="{{ vcsa_username }}"
+        password="{{ vcsa_password }}"
+        datacenter_name="{{ vcsa_datacenter }}"
+        state=present
+  ignore_errors: yes

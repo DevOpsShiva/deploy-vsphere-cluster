@@ -8,8 +8,7 @@
    resource_pool: "{{ resource_pool }}"
 #   state: powered_on
    state: present
-   vm_extra_config:
-     vhv.enable: yes
+#   vm_extra_config:
    vm_disk:
      disk1:
        size_gb: "{{ disk_size }}"
@@ -36,7 +35,7 @@
        type: e1000
        network: "{{ vmnic4_portgroup }}"
        network_type: standard
-   #vm_hw_version: vmx-09
+   vm_hw_version: vmx-08
    vm_hardware:
      memory_mb: "{{ memory_size }}"
      num_cpus: "{{ cpucount }}"
@@ -47,9 +46,7 @@
        iso_path: "{{ esxi_iso_path }}"
    esxi:
      datacenter: "{{ vm_datacenter }}"
-     hostname: 192.168.3.4
+     hostname: "{{ cluster2_nested_esxi_deploy_target_esxi }}"
   #with_items: "{{ vmname_list }}"
   #with_items: groups['nested_esxi']
  
-
-

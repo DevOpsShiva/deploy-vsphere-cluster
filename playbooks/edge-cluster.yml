@@ -1,8 +1,8 @@
-- hosts: localhost
+- hosts: edge_cluster
   gather_facts: false
   any_errors_fatal: true
   sudo: false
   connection: local
   user: remote
   roles:
-    - { role: configure }
+    - { role: edge-cluster }
