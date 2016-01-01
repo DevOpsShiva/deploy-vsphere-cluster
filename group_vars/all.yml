@@ -1,11 +1,8 @@
-
-	
 # Common
 vcenter_hostname : 192.168.3.100
 vcenter_username : administrator
 vcenter_password : VMware1!
 resource_pool : /Resources/Commons/Test
-esxi_iso_path : NFS-Remote1/ISO/ESXi/6.0.0U1a/CUSTOM-VMware-VMvisor-Installer-6.0.0.update01-3073146.x86_64.iso
 vm_datacenter : HOME
 cluster1_nested_esxi_deploy_target_esxi : 192.168.3.5
 cluster2_nested_esxi_deploy_target_esxi : 192.168.3.3
@@ -13,13 +10,11 @@ cluster3_nested_esxi_deploy_target_esxi : 192.168.3.2
 vcenter_cluster : CLUSTER
 nfs_mount_dir_path : /mnt/nfs
 iso_mount_dir_path : /mnt/ISO
+dns_server1 : 192.168.3.103
+dns_server2 : 192.168.3.106
 # Nested ESXi
-nfs_mount_dir_path : /mnt/nfs
 esxi_iso_path : NFS-Remote1/ISO/ESXi/6.0.0U1a/CUSTOM-VMware-VMvisor-Installer-6.0.0.update01-3073146.x86_64.iso
-vm_datacenter : HOME
-vcenter_cluster : CLUSTER
-resource_pool : /Resources/Commons/Test
-nested_esxi_deploy_target_esxi : 192.168.3.5
+deploy_target_esxi : 192.168.3.5
 cpucount : 4
 memory_size : 8192
 disk_size : 8
@@ -33,7 +28,6 @@ esxi_username : root
 esxi_password : VMware1!
 nfs_storage : 192.168.5.101
 # vCenter Server Appliace
-iso_mount_dir_path : /mnt/ISO
 vcsa_iso_path : /mnt/nfs/ISO/vCenter/6.0.0U1/VMware-VCSA-all-6.0.0-3040890.iso
 ovftool :  /usr/bin/ovftool
 vcsa_ova : vcsa/vmware-vcsa
@@ -57,22 +51,47 @@ vcsa_deploy_target_esxi : 192.168.3.4
 vcsa_username : administrator@vsphere.local
 vcsa_password : VMware1!
 vcsa_datacenter : DATACENTER
+#cluster_list:
+#  cluster1:
+#    cluster_name: Management Cluster
+#    esxi1: host070.sotani.local
+#    esxi2: host071.sotani.local
+#    deploy_target_esxi : 192.168.3.5
+#    deploy_target_datastore: Local-005
+#  cluster2:
+#    cluster_name: Edge Cluster
+#    esxi1: host072.sotani.local
+#    esxi2: host073.sotani.local
+#    deploy_target_esxi : 192.168.3.3
+#    deploy_target_datastore: Local-003
+#  cluster3:
+#    cluster_name: Compute Cluster1
+#    esxi1: host074.sotani.local
+#    esxi2: host075.sotani.local
+#    deploy_target_esxi : 192.168.3.2
+#    deploy_target_datastore: Local-002
 cluster_list:
-  cluster1:
-    clsuter_name: Management Cluster
-	esxi:
-	  host: host070.sotani.local
-	  host: host071.sotani.local
-  cluster2:
-    clsuter_name: Edge Cluster
-	esxi:
-	  host: host072.sotani.local
-	  host: host073.sotani.local
-  cluster3:
-    clsuter_name: Compute Cluster1
-	esxi:
-	  host: host074.sotani.local
-	  host: host075.sotani.local
+  - name: Management Cluster
+    esxi:
+      hosts:
+        - host070.sotani.local
+        - host071.sotani.local
+    deploy_target_esxi: 192.168.3.5
+    deploy_target_datastore: Local-005
+  - name: Edge Cluster
+    esxi:
+      hosts:
+        - host072.sotani.local
+        - host073.sotani.local
+    deploy_target_esxi: 192.168.3.3
+    deploy_target_datastore: Local-003
+  - name: Compute Cluster1
+    esxi:
+      hosts:
+        - host074.sotani.local
+        - host075.sotani.local
+    deploy_target_esxi: 192.168.3.2
+    deploy_target_datastore: Local-002
 tenant_dvs : Tenant-DVS
 public_dvs : Public-DVS
 domain_name : sotani.local

@@ -3,4 +3,4 @@
   any_errors_fatal: true
   sudo: false
   roles:
-    - { role: advancedsettings. }
+    - { role: advancedsettings }

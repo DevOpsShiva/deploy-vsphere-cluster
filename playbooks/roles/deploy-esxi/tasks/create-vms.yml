@@ -46,7 +46,6 @@
        iso_path: "{{ esxi_iso_path }}"
    esxi:
      datacenter: "{{ vm_datacenter }}"
-     hostname: "{{ cluster2_nested_esxi_deploy_target_esxi }}"
-  #with_items: "{{ vmname_list }}"
-  #with_items: groups['nested_esxi']
+     hostname: "{{ deploy_target_esxi }}"
+#  with_dict: "{{users}}"
  

@@ -1,15 +1,30 @@
-- name: Create Management Cluster
+#- name: Create Clusters
+#  local_action: >
+#     vmware_cluster
+#     hostname="{{ vcsa_hostname }}"
+#     username="{{ vcsa_username }}"
+#     password="{{ vcsa_password }}"
+#     datacenter_name="{{ vcsa_datacenter }}"
+#    cluster_name="{{ item.value.cluster_name }}"
+#     enable_ha=True
+#     enable_drs=True
+#     enable_vsan=False
+# with_dict: "{{ cluster_list }}"
+#  ignore_errors: yes
+
+
+- name: Create Clusters
   local_action: >
      vmware_cluster
      hostname="{{ vcsa_hostname }}"
      username="{{ vcsa_username }}"
      password="{{ vcsa_password }}"
      datacenter_name="{{ vcsa_datacenter }}"
-     cluster_name="{{ item.value.clsuter_name }}"
+     cluster_name="{{ item.0.name }}"
      enable_ha=True
      enable_drs=True
      enable_vsan=False
-  with_dict: "{{ cluster_list }}"
+  with_subelements:
+   - cluster_list
+   - esxi.hosts
   ignore_errors: yes
-
-

@@ -1,17 +1,46 @@
-- name: Add ESXi Hosts to Management Cluster
+#- name: Add First Host to Clusters
+#  local_action:
+#    module: vmware_host
+#    hostname: "{{ vcsa_hostname }}"
+#    username: "{{ vcsa_username }}"
+#    password: "{{ vcsa_password }}"
+#    datacenter_name: "{{ vcsa_datacenter }}"
+#    cluster_name: "{{ item.value.cluster_name }}"
+#    esxi_hostname: "{{ item.value.esxi1 }}"
+#    esxi_username: "{{ esxi_username }}"
+#    esxi_password: "{{ esxi_password }}"
+#    state: present
+#  with_dict: "{{ cluster_list }}"
+#  ignore_errors: yes
+
+#- name: Add Second Host to Clusters
+#  local_action:
+#    module: vmware_host
+#    hostname: "{{ vcsa_hostname }}"
+#    username: "{{ vcsa_username }}"
+#    password: "{{ vcsa_password }}"
+#    datacenter_name: "{{ vcsa_datacenter }}"
+#    cluster_name: "{{ item.value.cluster_name }}"
+#    esxi_hostname: "{{ item.value.esxi2 }}"
+#    esxi_username: "{{ esxi_username }}"
+#    esxi_password: "{{ esxi_password }}"
+#    state: present
+#  with_dict: "{{ cluster_list }}"
+#  ignore_errors: yes
+- name: Add Host to Clusters
   local_action:
     module: vmware_host
     hostname: "{{ vcsa_hostname }}"
     username: "{{ vcsa_username }}"
     password: "{{ vcsa_password }}"
     datacenter_name: "{{ vcsa_datacenter }}"
-    cluster_name: "{{ item.value.name }}"
-    esxi_hostname: "{{ item.value.esxi.host }}"
+    cluster_name: "{{ item.0.name }}"
+    esxi_hostname: "{{ item.1 }}"
     esxi_username: "{{ esxi_username }}"
     esxi_password: "{{ esxi_password }}"
     state: present
-  with_dict: "{{ cluster_list }}"
+  with_subelements:
+  - cluster_list
+  - esxi.hosts
   ignore_errors: yes
-
-
 
