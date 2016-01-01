@@ -1,8 +1,0 @@
-- hosts: management_cluster
-  gather_facts: false
-  any_errors_fatal: true
-  sudo: false
-  connection: local
-  user: remote
-  roles:
-    - { role: mgmt-cluster }

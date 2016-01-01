@@ -1,8 +1,0 @@
-vcenter_hostname : 192.168.3.100
-vcenter_username : administrator
-vcenter_password : VMware1!
-nfs_mount_dir_path : /mnt/nfs
-iso_mount_dir_path : /mnt/ISO
-dns_server1 : 192.168.3.103
-dns_server2 : 192.168.3.106
-domain_name : sotani.local
