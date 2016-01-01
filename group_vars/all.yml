@@ -1,0 +1,85 @@
+
+	
+# Common
+vcenter_hostname : 192.168.3.100
+vcenter_username : administrator
+vcenter_password : VMware1!
+resource_pool : /Resources/Commons/Test
+esxi_iso_path : NFS-Remote1/ISO/ESXi/6.0.0U1a/CUSTOM-VMware-VMvisor-Installer-6.0.0.update01-3073146.x86_64.iso
+vm_datacenter : HOME
+cluster1_nested_esxi_deploy_target_esxi : 192.168.3.5
+cluster2_nested_esxi_deploy_target_esxi : 192.168.3.3
+cluster3_nested_esxi_deploy_target_esxi : 192.168.3.2
+vcenter_cluster : CLUSTER
+nfs_mount_dir_path : /mnt/nfs
+iso_mount_dir_path : /mnt/ISO
+# Nested ESXi
+nfs_mount_dir_path : /mnt/nfs
+esxi_iso_path : NFS-Remote1/ISO/ESXi/6.0.0U1a/CUSTOM-VMware-VMvisor-Installer-6.0.0.update01-3073146.x86_64.iso
+vm_datacenter : HOME
+vcenter_cluster : CLUSTER
+resource_pool : /Resources/Commons/Test
+nested_esxi_deploy_target_esxi : 192.168.3.5
+cpucount : 4
+memory_size : 8192
+disk_size : 8
+datastore : Local-005
+vmnic0_portgroup : VM Network
+vmnic1_portgroup : PG-vMotion
+vmnic2_portgroup : PG-Storage
+vmnic3_portgroup : PG-Tenant
+vmnic4_portgroup : PG-Public
+esxi_username : root
+esxi_password : VMware1!
+nfs_storage : 192.168.5.101
+# vCenter Server Appliace
+iso_mount_dir_path : /mnt/ISO
+vcsa_iso_path : /mnt/nfs/ISO/vCenter/6.0.0U1/VMware-VCSA-all-6.0.0-3040890.iso
+ovftool :  /usr/bin/ovftool
+vcsa_ova : vcsa/vmware-vcsa
+ovftool_http_timeout : 25
+vcsa_datastore : Local-004
+vcsa_deployment_option : tiny
+vcsa_appliance_name : VC121-60U1
+vcsa_portgroup : "VM Network"
+vcsa_sso_domain_name : vsphere.local
+vcsa_sso_site_name : Default-First-Site
+vcsa_sso_password : VMware1!
+vcsa_ip_address : 192.168.3.121
+vcsa_hostname : vc121.sotani.local
+vcsa_ip_netmask : 255.255.255.0
+vcsa_dns_server : 192.168.3.103
+vcsa_ip_gateway : 192.168.3.1
+vcsa_root_password : VMware1!
+vcsa_ssh_enable : True
+vcsa_ntp_server : ntp.sotani.local
+vcsa_deploy_target_esxi : 192.168.3.4
+vcsa_username : administrator@vsphere.local
+vcsa_password : VMware1!
+vcsa_datacenter : DATACENTER
+cluster_list:
+  cluster1:
+    clsuter_name: Management Cluster
+	esxi:
+	  host: host070.sotani.local
+	  host: host071.sotani.local
+  cluster2:
+    clsuter_name: Edge Cluster
+	esxi:
+	  host: host072.sotani.local
+	  host: host073.sotani.local
+  cluster3:
+    clsuter_name: Compute Cluster1
+	esxi:
+	  host: host074.sotani.local
+	  host: host075.sotani.local
+tenant_dvs : Tenant-DVS
+public_dvs : Public-DVS
+domain_name : sotani.local
+# Cluster Settings
+vcsa_cluster1_name : Management Cluster
+vcsa_cluster2_name : Edge Cluster
+vcsa_cluster3_name : Compute Cluster1
+cluster1_name : Management Cluster
+cluster2_name : Edge Cluster
+cluster3_name : Compute Cluster

@@ -1,0 +1,15 @@
+- name: Create Management Cluster
+  local_action: >
+     vmware_cluster
+     hostname="{{ vcsa_hostname }}"
+     username="{{ vcsa_username }}"
+     password="{{ vcsa_password }}"
+     datacenter_name="{{ vcsa_datacenter }}"
+     cluster_name="{{ item.value.clsuter_name }}"
+     enable_ha=True
+     enable_drs=True
+     enable_vsan=False
+  with_dict: "{{ cluster_list }}"
+  ignore_errors: yes
+
+

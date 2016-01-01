@@ -1,0 +1,15 @@
+- name: Reconfigure VMs
+  vsphere_guest:
+   vcenter_hostname: "{{ vcenter_hostname }}"
+   username: "{{ vcenter_username }}"
+   password: "{{ vcenter_password }}"
+   guest: "{{ inventory_hostname }}"
+   cluster: "{{ vcenter_cluster }}"
+   resource_pool: "{{ resource_pool }}"
+#   state: powered_on
+   state: reconfigured
+   vm_extra_config:
+      vhv.enable: yes
+      vcpu.hotadd: yes
+      mem.hotadd:  yes
+ 

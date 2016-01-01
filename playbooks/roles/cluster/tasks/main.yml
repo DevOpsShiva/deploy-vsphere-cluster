@@ -1,0 +1,3 @@
+- include: create-cluster.yml
+- include: add-hosts.yml
+- include: network.yml

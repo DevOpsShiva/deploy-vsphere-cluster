@@ -1,0 +1,17 @@
+- name: Add ESXi Hosts to Management Cluster
+  local_action:
+    module: vmware_host
+    hostname: "{{ vcsa_hostname }}"
+    username: "{{ vcsa_username }}"
+    password: "{{ vcsa_password }}"
+    datacenter_name: "{{ vcsa_datacenter }}"
+    cluster_name: "{{ item.value.name }}"
+    esxi_hostname: "{{ item.value.esxi.host }}"
+    esxi_username: "{{ esxi_username }}"
+    esxi_password: "{{ esxi_password }}"
+    state: present
+  with_dict: "{{ cluster_list }}"
+  ignore_errors: yes
+
+
+
