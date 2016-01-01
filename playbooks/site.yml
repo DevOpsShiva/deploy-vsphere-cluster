@@ -3,6 +3,7 @@
 #- include: unmount-nfs.yml
 - include: kickstart.yml
 - include: boot-esxi.yml
+- include: configure-esxi.yml
 - include: deploy-vcsa.yml
 - include: datacenter.yml
 - include: dvswitch.yml
