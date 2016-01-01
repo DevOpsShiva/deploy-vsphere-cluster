@@ -7,6 +7,3 @@
    cluster: "{{ vcenter_cluster }}"
    resource_pool: "{{ resource_pool }}"
    state: powered_on
-#   esxi:
-#     datacenter: "{{ vm_datacenter }}"
-#     hostname: 192.168.3.4

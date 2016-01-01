@@ -9,9 +9,9 @@
   delegate_to: localhost
   become: no
 
-#- name: Report mac addresses
-#  debug: msg="{{ hostvars[inventory_hostname]['hw_eth0']['macaddress'] }}"
-#  become: no
+- name: Report mac addresses
+  debug: msg="{{ hostvars[inventory_hostname]['hw_eth0']['macaddress'] }}"
+  become: no
 
 - name: Retrieve info about the mount directory
   stat: path= "{{ nfs_mount_dir_path }}"

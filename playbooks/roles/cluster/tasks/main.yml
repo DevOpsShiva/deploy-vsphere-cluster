@@ -1,3 +1,2 @@
 - include: create-cluster.yml
 - include: add-hosts-to-cluster.yml
-- include: add-hosts-to-dvs.yml

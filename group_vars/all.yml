@@ -1,15 +1,15 @@
 # Common
+ansible_user : root
+ansible_ssh_pass : VMware1!
 vcenter_hostname : 192.168.3.100
 vcenter_username : administrator
 vcenter_password : VMware1!
 resource_pool : /Resources/Commons/Test
 vm_datacenter : HOME
-cluster1_nested_esxi_deploy_target_esxi : 192.168.3.5
-cluster2_nested_esxi_deploy_target_esxi : 192.168.3.3
-cluster3_nested_esxi_deploy_target_esxi : 192.168.3.2
 vcenter_cluster : CLUSTER
-nfs_mount_dir_path : /mnt/nfs
+nfs_mount_dir_path : /mnt/nfs/
 iso_mount_dir_path : /mnt/ISO
+domain_name : sotani.local
 dns_server1 : 192.168.3.103
 dns_server2 : 192.168.3.106
 # Nested ESXi
@@ -51,25 +51,6 @@ vcsa_deploy_target_esxi : 192.168.3.4
 vcsa_username : administrator@vsphere.local
 vcsa_password : VMware1!
 vcsa_datacenter : DATACENTER
-#cluster_list:
-#  cluster1:
-#    cluster_name: Management Cluster
-#    esxi1: host070.sotani.local
-#    esxi2: host071.sotani.local
-#    deploy_target_esxi : 192.168.3.5
-#    deploy_target_datastore: Local-005
-#  cluster2:
-#    cluster_name: Edge Cluster
-#    esxi1: host072.sotani.local
-#    esxi2: host073.sotani.local
-#    deploy_target_esxi : 192.168.3.3
-#    deploy_target_datastore: Local-003
-#  cluster3:
-#    cluster_name: Compute Cluster1
-#    esxi1: host074.sotani.local
-#    esxi2: host075.sotani.local
-#    deploy_target_esxi : 192.168.3.2
-#    deploy_target_datastore: Local-002
 cluster_list:
   - name: Management Cluster
     esxi:
@@ -94,11 +75,3 @@ cluster_list:
     deploy_target_datastore: Local-002
 tenant_dvs : Tenant-DVS
 public_dvs : Public-DVS
-domain_name : sotani.local
-# Cluster Settings
-vcsa_cluster1_name : Management Cluster
-vcsa_cluster2_name : Edge Cluster
-vcsa_cluster3_name : Compute Cluster1
-cluster1_name : Management Cluster
-cluster2_name : Edge Cluster
-cluster3_name : Compute Cluster

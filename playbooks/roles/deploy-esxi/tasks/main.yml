@@ -6,14 +6,13 @@
    guest: "{{ inventory_hostname }}"
    cluster: "{{ vcenter_cluster }}"
    resource_pool: "{{ resource_pool }}"
-#   state: powered_on
    state: present
-#   vm_extra_config:
+#  vm_extra_config:
    vm_disk:
      disk1:
        size_gb: "{{ disk_size }}"
        type: thin
-       datastore: "{{ datastore }}" 
+       datastore: "{{ deploy_target_datastore }}" 
    vm_nic:
      nic1:
        type: e1000
@@ -47,5 +46,3 @@
    esxi:
      datacenter: "{{ vm_datacenter }}"
      hostname: "{{ deploy_target_esxi }}"
-#  with_dict: "{{users}}"
- 

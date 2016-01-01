@@ -1,13 +1,24 @@
 # https://github.com/vmware/ansible-role-vcsa/blob/master/tasks/prereqs.yml
 
-#- name: Create the mount directory
-#  file: path="{{ iso_mount_dir_path }}"  state=directory mode=0755 
+- name: Create the mount directory
+  file:
+    path: "{{ iso_mount_dir_path }}"
+    state: directory
+    mode: 0755 
+  become: True
 
 - name: Ensure nfs mount
-  local_action: mount name="{{ nfs_mount_dir_path }}" src=192.168.5.99:/mnt/DroboFS/Shares/NFS fstype=nfs  state=mounted
+  mount:
+    name: "{{ nfs_mount_dir_path }}" 
+    src: 192.168.5.99:/mnt/DroboFS/Shares/NFS 
+    fstype: nfs
+    state: mounted
 
 - name: Mount the ISO
-  mount: name="{{ iso_mount_dir_path }}" src="{{ vcsa_iso_path }}" fstype=iso9660 opts=ro state=present
-  #command: /bin/mount -t iso9660 "{{ vcsa_iso_path }}" "{{ iso_mount_dir_path }}"
+  mount: 
+    name: "{{ iso_mount_dir_path }}" 
+    src: "{{ vcsa_iso_path }}" 
+    fstype: iso9660
+    state: mounted
   become: True
 

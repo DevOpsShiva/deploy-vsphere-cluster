@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: vcsa
   gather_facts: false
   any_errors_fatal: true
   sudo: true

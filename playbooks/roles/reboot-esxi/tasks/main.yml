@@ -1,0 +1,25 @@
+- name: Check maintenance mode
+  raw: esxcli system maintenanceMode get
+  register: maintenance_mode
+
+- name: Go to maintenance mode
+  raw: esxcli system maintenanceMode set -e True
+  when: maintenance_mode.stdout.find("Disabled") != -1
+
+- name: Reboot
+  raw: esxcli system shutdown reboot -r "reboot by ansible"
+
+#- name: Wait until hosts are ready
+#  wait_for: host="{{ inventory_hostname }}" delay=10 connect_timeout=5 timeout=300 path=/local.tgz state=present
+- local_action: wait_for port=22 host="{{ inventory_hostname }}" search_regex=OpenSSH delay=10 timeout=300
+
+- name: Check maintenance mode
+  raw: esxcli system maintenanceMode get
+  register: maintenance_mode
+
+- name: Exit from maintenance mode
+  raw: esxcli system maintenanceMode set -e False
+  when: maintenance_mode.stdout.find("Disabled") != 0
+
+
+ 

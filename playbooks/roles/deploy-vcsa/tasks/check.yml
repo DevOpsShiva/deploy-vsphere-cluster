@@ -5,8 +5,14 @@
 #    delay: 30
 #    timeout: 36000
 #  delegate_to: localhost
-- action: shell ssh root@{{ vcsa_ip_address }} "com.vmware.appliance.version1.services.status.get --name vmware-vpxd"
+- name: Wait until vCSA is ready
+  action: shell sshpass -p "{{ ansible_ssh_pass }}" ssh root@{{ vcsa_ip_address }} "com.vmware.appliance.version1.services.status.get --name vmware-vpxd"
   register: result
   until: result.stdout.find("up") != -1
   retries: 500
   delay: 30
+  become: False
+
+- name: Confirm vCSA is ready (vmware-vpxd is up)
+  debug: msg="{{ result.stdout}}"
+

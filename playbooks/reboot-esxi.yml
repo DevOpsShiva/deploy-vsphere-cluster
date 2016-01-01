@@ -1,6 +1,6 @@
-- hosts: management_cluster
+- hosts: nested_esxi
   gather_facts: false
   any_errors_fatal: true
   sudo: false
   roles:
-    - { role: cluster-storage }
+    - { role: reboot-esxi }

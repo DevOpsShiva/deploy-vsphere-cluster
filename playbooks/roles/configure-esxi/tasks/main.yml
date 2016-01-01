@@ -1,7 +1,7 @@
 - name: Configure ESXi hostname and DNS servers
   local_action:
     module: vmware_dns_config
-    hostname: "{{ inventory_hostname }}"
+    hostname: "{{ hostname }}"
     username: "{{ esxi_username }}"
     password: "{{ esxi_password }}"
     change_hostname_to: "{{ hostname }}"
@@ -10,21 +10,21 @@
         - "{{ dns_server1 }}"
         - "{{ dns_server2 }}"
 
-- name: Add Management Network VM Portgroup
-  local_action:
-    module: vmware_portgroup
-    hostname: "{{ inventory_hostname }}"
-    username: "{{ esxi_username }}"
-    password: "{{ esxi_password }}"
-    switch_name: vSwitch0
-    portgroup_name: "VM Network"
-    vlan_id: 0
-  ignore_errors: yes
+#- name: Add Management Network VM Portgroup
+#  local_action:
+#    module: vmware_portgroup
+#    hostname: "{{ hostname }}"
+#    username: "{{ esxi_username }}"
+#    password: "{{ esxi_password }}"
+#    switch_name: vSwitch0
+#    portgroup_name: "VM Network"
+#    vlan_id: 0
+#  ignore_errors: yes
 
 - name: Add vSwitch1
   local_action:
     module: vmware_vswitch
-    hostname: "{{ inventory_hostname }}"
+    hostname: "{{ hostname }}"
     username: "{{ esxi_username }}"
     password: "{{ esxi_password }}"
     switch_name: vSwitch1
@@ -35,7 +35,7 @@
 - name: Add vMotion vmkernel port (vmk1)
   local_action:
     module: vmware_vmkernel
-    hostname: "{{ inventory_hostname }}"
+    hostname: "{{ hostname }}"
     username: "{{ esxi_username }}"
     password: "{{ esxi_password }}"
     vswitch_name: vSwitch1
@@ -51,7 +51,7 @@
 - name: Add vSwitch2
   local_action:
     module: vmware_vswitch
-    hostname: "{{ inventory_hostname }}"
+    hostname: "{{ hostname }}"
     username: "{{ esxi_username }}"
     password: "{{ esxi_password }}"
     switch_name: vSwitch2
@@ -62,7 +62,7 @@
 - name: Add Storage vmkernel port (vmk2)
   local_action:
     module: vmware_vmkernel
-    hostname: "{{ inventory_hostname }}"
+    hostname: "{{ hostname }}"
     username: "{{ esxi_username }}"
     password: "{{ esxi_password }}"
     vswitch_name: vSwitch2
@@ -74,4 +74,3 @@
     mtu: 8000
   ignore_errors: yes
 
-	

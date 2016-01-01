@@ -1,0 +1,15 @@
+- name: Unmount the ISO
+  mount: 
+    name: "{{ iso_mount_dir_path }}" 
+    src: "{{ vcsa_iso_path }}" 
+    fstype: iso9660
+    state: unmounted
+  become: True
+
+- name: Delete the mount directory
+  file:
+    path: "{{ iso_mount_dir_path }}"
+    state: absent
+    mode: 0755
+  become: True
+

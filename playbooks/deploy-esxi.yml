@@ -1,4 +1,4 @@
-- hosts: nested_esxi
+- hosts: vms
   gather_facts: false
   any_errors_fatal: true
   sudo: false
