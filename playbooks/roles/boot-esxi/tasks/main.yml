@@ -5,5 +5,5 @@
    password: "{{ vcenter_password }}"
    guest: "{{ inventory_hostname }}"
    cluster: "{{ vcenter_cluster }}"
-   resource_pool: "{{ resource_pool }}"
+   resource_pool: Resources/"{{ resource_pool }}"
    state: powered_on

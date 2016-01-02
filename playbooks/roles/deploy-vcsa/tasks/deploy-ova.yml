@@ -34,7 +34,7 @@
     --prop:guestinfo.cis.appliance.ssh.enabled='{{ vcsa_ssh_enable }}'
     --prop:guestinfo.cis.appliance.ntp.servers='{{ vcsa_ntp_server }}'
     '{{ iso_mount_dir_path }}/{{ vcsa_ova }}'
-    vi://'{{ vcenter_username }}':'{{ vcenter_password }}'@'{{ vcenter_hostname }}'/?dns='{{ vcsa_deploy_target_esxi }}'
+    vi://'{{ vcenter_username }}':'{{ vcenter_password }}'@'{{ vcenter_hostname }}'/'{{ vm_datacenter }}'/host/'{{ vcenter_cluster }}'/Resources/'{{ vcsa_resource_pool }}'/
   register: deploy_result
   ignore_errors: True
   failed_when: "deploy_result.stderr not in ['already exists.',] and deploy_result.rc != 0"

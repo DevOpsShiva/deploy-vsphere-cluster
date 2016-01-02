@@ -5,7 +5,7 @@
    password: "{{ vcenter_password }}"
    guest: "{{ inventory_hostname }}"
    cluster: "{{ vcenter_cluster }}"
-   resource_pool: "{{ resource_pool }}"
+   resource_pool: "/Resources/{{ resource_pool }}"
    state: present
 #  vm_extra_config:
    vm_disk:
@@ -46,3 +46,6 @@
    esxi:
      datacenter: "{{ vm_datacenter }}"
      hostname: "{{ deploy_target_esxi }}"
+
+- name: Confirm
+  pause:

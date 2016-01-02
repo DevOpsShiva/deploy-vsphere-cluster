@@ -9,9 +9,8 @@
 - name: Reboot
   raw: esxcli system shutdown reboot -r "reboot by ansible"
 
-#- name: Wait until hosts are ready
-#  wait_for: host="{{ inventory_hostname }}" delay=10 connect_timeout=5 timeout=300 path=/local.tgz state=present
-- local_action: wait_for port=22 host="{{ inventory_hostname }}" search_regex=OpenSSH delay=10 timeout=300
+- name: Wait until hosts are ready
+  local_action: wait_for port=22 host="{{ inventory_hostname }}" search_regex=OpenSSH delay=10 timeout=300
 
 - name: Check maintenance mode
   raw: esxcli system maintenanceMode get

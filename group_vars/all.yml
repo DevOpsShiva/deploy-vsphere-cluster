@@ -4,7 +4,8 @@ ansible_ssh_pass : VMware1!
 vcenter_hostname : 192.168.3.100
 vcenter_username : administrator
 vcenter_password : VMware1!
-resource_pool : /Resources/Commons/Test
+#resource_pool : /Resources/Commons/Test
+resource_pool : Commons/Test
 vm_datacenter : HOME
 vcenter_cluster : CLUSTER
 nfs_mount_dir_path : /mnt/nfs/
@@ -33,6 +34,7 @@ ovftool :  /usr/bin/ovftool
 vcsa_ova : vcsa/vmware-vcsa
 ovftool_http_timeout : 25
 vcsa_datastore : Local-004
+vcsa_resource_pool : Commons/Test
 vcsa_deployment_option : tiny
 vcsa_appliance_name : VC121-60U1
 vcsa_portgroup : "VM Network"
