@@ -1,1 +1,1 @@
-ansible playbooks to deploy a sphere cluster
+ansible playbooks to deploy a vsphere cluster
