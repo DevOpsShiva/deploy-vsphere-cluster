@@ -1,10 +1,10 @@
 - include: mount-nfs.yml
 - include: deploy-esxi.yml
-#- include: unmount-nfs.yml
 - include: kickstart.yml
 - include: boot-esxi.yml
 - include: deploy-vcsa.yml
 - include: configure-esxi.yml
+- include: configure-storage.yml
 - include: configure-esxi-storage.yml
 - include: datacenter.yml
 - include: cluster.yml

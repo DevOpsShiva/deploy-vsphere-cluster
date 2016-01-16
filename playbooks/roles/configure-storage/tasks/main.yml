@@ -1,0 +1,11 @@
+- name: Create a directory on SSD storage
+  file:
+    path: /mnt/nfs-ssd/{{ project_name }}
+    state: directory
+    mode: 0755
+
+- name: Create a directory on SATA storage
+  file:
+    path: /mnt/nfs-sata/{{ project_name }}
+    state: directory
+    mode: 0755

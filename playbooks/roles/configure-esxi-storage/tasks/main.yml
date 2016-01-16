@@ -4,7 +4,7 @@
   register: nfs_ssd_status
 
 - name: Add NFS datastore (NFS-SSD)
-  raw: esxcli storage nfs add --host="{{ nfs_storage }}" --share=/mnt/nfs-ssd --volume-name=NFS-SSD
+  raw: esxcli storage nfs add --host="{{ nfs_storage }}" --share=/mnt/nfs-ssd/{{ project_name }}/ --volume-name=NFS-SSD
   when: nfs_ssd_status.stdout.find("NFS-SSD") != 0
 
 - name: Check datastores
@@ -13,7 +13,7 @@
   register: nfs_sata_status
 
 - name: Add NFS datastore (NFS-SATA)
-  raw: esxcli storage nfs add --host="{{ nfs_storage }}" --share=/mnt/nfs-sata --volume-name=NFS-SATA
+  raw: esxcli storage nfs add --host="{{ nfs_storage }}" --share=/mnt/nfs-sata/{{ project_name }}/ --volume-name=NFS-SATA
   when: nfs_sata_status.stdout.find("NFS-SATA") != 0
 
 - name: Check datastore list
