@@ -24,7 +24,7 @@
   run_once: true
 
 - name: Ensure nfs mount
-  local_action: mount name="{{ nfs_mount_dir_path }}" src=192.168.5.99:/mnt/DroboFS/Shares/NFS fstype=nfs  state=mounted
+  local_action: mount name="{{ nfs_mount_dir_path }}" src=192.168.5.99:/mnt/DroboFS/Shares/NFS fstype=nfs opts=nolock state=mounted
   run_once: true 
 
 - name: Preparing kickstart file (hostname.cfg)
