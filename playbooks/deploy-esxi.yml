@@ -4,5 +4,7 @@
   sudo: false
   connection: local
   user: remote
+  vars_files:
+  - $ANSIBLE_HOME/deploy-vsphere-cluster/group_vars/{{ project_name }}.yml
   roles:
     - { role: deploy-esxi }
