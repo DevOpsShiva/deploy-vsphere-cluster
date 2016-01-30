@@ -40,13 +40,24 @@ vcsa_ssh_enable : True
 vcsa_username : administrator@vsphere.local
 vcsa_password : VMware1!
 vcsa_datacenter : DATACENTER
+vm_list:
+  - name: HOST078-60U1
+    deploy_target:
+      esxi: 192.168.3.3
+      datastore: Local-003
+  - name: HOST096-60U1    
+    deploy_target:
+      esxi: 192.168.3.3
+      datastore: Local-003
 cluster_list:
   - name: Management Cluster
     esxi:
+      vmname:
+        - HOST078-60U1
+        - HOST096-60U1
       hosts:
         - host078.sotani.local
-    deploy_target_esxi: 192.168.3.3
-    deploy_target_datastore: Local-003
+        - host096.sotani.local
 tenant_dvs : Tenant-DVS
 public_dvs : Public-DVS
 #

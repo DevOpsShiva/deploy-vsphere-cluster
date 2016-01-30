@@ -3,7 +3,8 @@
    vcenter_hostname: "{{ vcenter_hostname }}"
    username: "{{ vcenter_username }}"
    password: "{{ vcenter_password }}"
-   guest: "{{ inventory_hostname }}"
+   #guest: "{{ inventory_hostname }}"
+   guest: "{{ item.0.name }}"
    cluster: "{{ vcenter_cluster }}"
    resource_pool: "/Resources/{{ esxi_resource_pool }}"
    state: present
@@ -12,7 +13,9 @@
      disk1:
        size_gb: "{{ disk_size }}"
        type: thin
-       datastore: "{{ deploy_target_datastore }}" 
+       #datastore: "{{ deploy_target_datastore }}" 
+       #datastore: "{{ item.0.deploy_target_datastore }}"
+       datastore: Local-003
    vm_nic:
      nic1:
        type: e1000
@@ -45,7 +48,10 @@
        iso_path: "{{ esxi_iso_path }}"
    esxi:
      datacenter: "{{ vm_datacenter }}"
-     hostname: "{{ deploy_target_esxi }}"
+     #hostname: "{{ deploy_target_esxi }}"
+     hostname: "{{ item.0.deploy_target.esxi }}"
+  with_subelements:
+  - vm_list
 
 - name: Confirm
   pause:
