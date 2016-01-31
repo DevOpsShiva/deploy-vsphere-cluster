@@ -4,10 +4,10 @@
 - include: boot-esxi.yml
 - include: deploy-vcsa.yml
 - include: configure-esxi.yml
-- include: configure-storage.yml
-- include: configure-esxi-storage.yml
 - include: datacenter.yml
 - include: cluster.yml
+- include: configure-storage.yml
+- include: configure-esxi-storage.yml
 - include: dvswitch.yml
 - include: advancedsettings.yml
 - include: reboot-esxi.yml
