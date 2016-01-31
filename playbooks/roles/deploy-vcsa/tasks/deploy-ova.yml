@@ -3,7 +3,7 @@
     {{ ovftool }}
     --acceptAllEulas
     --skipManifestCheck
-    --X:logFile=$HOME/ovftool.log
+    --X:logFile=ovftool.log
     --X:logLevel=verbose
     --X:logTransferHeaderData 
     --X:injectOvfEnv

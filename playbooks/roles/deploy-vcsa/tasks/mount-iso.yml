@@ -7,12 +7,20 @@
     mode: 0755 
   become: True
 
+- name: Create the mount directory
+  file: 
+    path: "{{ nfs_mount_dir_path }}"
+    state: directory
+    mode: 0755
+  become: True
+
 - name: Ensure nfs mount
   mount:
     name: "{{ nfs_mount_dir_path }}" 
     src: "{{ iso_nfs_server }}:{{ nfs_server_dir_path }}"
     fstype: nfs
     state: mounted
+  become: True
 
 - name: Mount the ISO
   mount: 

@@ -1,29 +1,47 @@
 #- name: Create Clusters
 #  local_action: >
 #     vmware_cluster
-#     hostname="{{ vcsa_hostname }}"
+#     hostname="{{ inventory_hostname }}"
 #     username="{{ vcsa_username }}"
 #     password="{{ vcsa_password }}"
 #     datacenter_name="{{ vcsa_datacenter }}"
-#    cluster_name="{{ item.value.cluster_name }}"
+#     cluster_name="{{ item.0.name }}"
 #     enable_ha=True
 #     enable_drs=True
 #     enable_vsan=False
-# with_dict: "{{ cluster_list }}"
+#  with_subelements:
+#   - cluster_list
+#   - esxi.fqdn
 #  ignore_errors: yes
 
 - name: Create Clusters
-  local_action: >
-     vmware_cluster
-     hostname="{{ inventory_hostname }}"
-     username="{{ vcsa_username }}"
-     password="{{ vcsa_password }}"
-     datacenter_name="{{ vcsa_datacenter }}"
-     cluster_name="{{ item.0.name }}"
-     enable_ha=True
-     enable_drs=True
-     enable_vsan=False
+  vcenter_cluster:
+    host: "{{ inventory_hostname }}"
+    login: "{{ vcsa_username }}"
+    password: "{{ vcsa_password }}"
+    port: 443
+    datacenter_name: "{{ vcsa_datacenter }}"
+    cluster_name: "{{ item.0.name }}"
+    ha:
+      enabled: True
+      admissionControlEnabled: False
+      failoverLevel: 1
+      hostMonitoring: 'enabled'
+      vmMonitoring: 'vmAndAppMonitoring'
+      vmMonitoring_sensitivity: 1
+      restartPriority: 'high'
+    drs:
+      enabled: True
+      enableVmBehaviorOverrides: True
+      defaultVmBehavior: 'fullyAutomated'
+      vmotionRate: 3
+    vsan:
+      enabled: False
+      autoClaimStorage: False
+    state: 'present'
   with_subelements:
    - cluster_list
+   - esxi.fqdn
+  run_once: true
+  delegate_to: localhost
   ignore_errors: yes
-

@@ -8,10 +8,10 @@
   vars_files:
    - /home/sotani/deploy-vsphere-cluster/vars/{{ project_name }}.yml
   tasks:
-   - local_action: add_host name="{{ nfs_storage }}" 
+   - local_action: add_host name="{{ datastore_nfs }}" groups=datastore_nfs
      changed_when: False
 
-- hosts: nfs-storage
+- hosts: datastore_nfs
   gather_facts: false
   any_errors_fatal: true
   become: false

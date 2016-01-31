@@ -133,6 +133,7 @@ domain_name : sotani.local
 dns_server1 : 192.168.3.103
 dns_server2 : 192.168.3.106
 ntp_server : ntp.sotani.local
+datastore_nfs: 192.168.3.101
 kickstart_nfs_server: 192.168.5.99
 kickstart_dir_path: /KS
 nfs_server_dir_path: /mnt/DroboFS/Shares/NFS

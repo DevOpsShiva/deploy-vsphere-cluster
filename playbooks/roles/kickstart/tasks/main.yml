@@ -64,3 +64,8 @@
 - name: Unmount NFS server
   local_action: mount name="{{ nfs_mount_dir_path }}" src={{ kickstart_nfs_server }}:{{ nfs_server_dir_path }} fstype=nfs  state=unmounted
   run_once: true
+
+- name: Delete NFS mount
+  file: path="{{ nfs_mount_dir_path }}" state=absent mode=0755
+  when: mount_dir_stat_first.stat.exists == False
+  run_once: true
