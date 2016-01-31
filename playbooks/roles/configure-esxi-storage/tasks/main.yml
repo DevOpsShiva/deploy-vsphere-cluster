@@ -1,26 +1,72 @@
-- name: Check datastores
-  raw: esxcli storage nfs list | grep NFS-SSD
-  ignore_errors: yes
+- name: Add NFS Datastore to Host (NFS-SSD)
+  vcenter_add_nfs_ds:
+    host: "{{ inventory_hostname }}"
+    login: "{{ vcsa_username }}"
+    password: "{{ vcsa_password }}"
+    port: "443"
+    esxi_hostname: "{{ item.1 }}"
+    nfs_host: "{{ nfs_storage }}"
+    nfs_path: '/mnt/nfs-ssd/{{ project_name }}'
+    nfs_name: 'NFS-SSD'
+    nfs_access: 'readWrite'
+    nfs_type: 'nfs'
+    state: 'present'
+  delegate_to: localhost
   register: nfs_ssd_status
-
-- name: Add NFS datastore (NFS-SSD)
-  raw: esxcli storage nfs add --host="{{ nfs_storage }}" --share=/mnt/nfs-ssd/{{ project_name }}/ --volume-name=NFS-SSD
-  when: nfs_ssd_status.stdout.find("NFS-SSD") != 0
-
-- name: Check datastores
-  raw: esxcli storage nfs list | grep NFS-SATA
+  with_subelements:
+  - cluster_list
+  - esxi.fqdn
   ignore_errors: yes
-  register: nfs_sata_status
-
-- name: Add NFS datastore (NFS-SATA)
-  raw: esxcli storage nfs add --host="{{ nfs_storage }}" --share=/mnt/nfs-sata/{{ project_name }}/ --volume-name=NFS-SATA
-  when: nfs_sata_status.stdout.find("NFS-SATA") != 0
-
-- name: Check datastore list
-  raw: esxcli storage nfs list
-  register: datastore_list
 
 - name: Review settings
-  debug: var=datastore_list.stdout_lines
+  debug: var=nfs_ssd_status.stdout
+
+- name: Add NFS Datastore to Host (NFS-SATA)
+  vcenter_add_nfs_ds:
+    host: "{{ inventory_hostname }}"
+    login: "{{ vcsa_username }}"
+    password: "{{ vcsa_password }}"
+    port: "443"
+    esxi_hostname: "{{ item.1 }}"
+    nfs_host: "{{ nfs_storage }}"
+    nfs_path: '/mnt/nfs-sata/{{ project_name }}'
+    nfs_name: 'NFS-SATA'
+    nfs_access: 'readWrite'
+    nfs_type: 'nfs'
+    state: 'present'
+  delegate_to: localhost
+  register: nfs_sata_status
+  with_subelements:
+  - cluster_list
+  - esxi.fqdn
+  ignore_errors: yes
+
+- name: Review settings
+  debug: var=nfs_sata_status.stdout
+
+#- name: Check datastores
+#  raw: esxcli storage nfs list | grep NFS-SSD
+#  ignore_errors: yes
+#  register: nfs_ssd_status
+
+#- name: Add NFS datastore (NFS-SSD)
+#  raw: esxcli storage nfs add --host="{{ nfs_storage }}" --share=/mnt/nfs-ssd/{{ project_name }}/ --volume-name=NFS-SSD
+#  when: nfs_ssd_status.stdout.find("NFS-SSD") != 0
+#
+#- name: Check datastores
+#  raw: esxcli storage nfs list | grep NFS-SATA
+#  ignore_errors: yes
+#  register: nfs_sata_status
+#
+#- name: Add NFS datastore (NFS-SATA)
+#  raw: esxcli storage nfs add --host="{{ nfs_storage }}" --share=/mnt/nfs-sata/{{ project_name }}/ --volume-name=NFS-SATA
+#  when: nfs_sata_status.stdout.find("NFS-SATA") != 0
+#
+#- name: Check datastore list
+#  raw: esxcli storage nfs list
+#  register: datastore_list
+#
+#- name: Review settings
+#  debug: var=datastore_list.stdout_lines
 
 

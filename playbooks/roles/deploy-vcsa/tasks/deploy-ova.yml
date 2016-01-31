@@ -36,11 +36,10 @@
     '{{ iso_mount_dir_path }}/{{ vcsa_ova }}'
     vi://'{{ vcenter_username }}':'{{ vcenter_password }}'@'{{ vcenter_hostname }}'/'{{ vm_datacenter }}'/host/'{{ vcenter_cluster }}'/Resources/'{{ item.value.vcsa_resource_pool }}'/
   register: deploy_result
-  #https://github.com/ansible/ansible/pull/11174
-  #failed_when: "'already exists.' not in deploy_result.stdout or 'Completed successfully' not in deploy_result.stdout"
+  #http://hakunin.com/six-ansible-practices
+  failed_when: >
+    ("already exists." not in deploy_result.stdout) and ("Completed successfully" not in deploy_result.stdout)
   with_dict: "{{ vcsa_config }}"
-  ignore_errors: true
-  #changed_when: false
 
 - name: Debug message
   debug:  var=deploy_result
