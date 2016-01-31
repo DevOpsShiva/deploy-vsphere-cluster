@@ -1,6 +1,6 @@
 - hosts: esxi
   gather_facts: false
   any_errors_fatal: true
-  sudo: false
+  become: false
   roles:
     - { role: unmount-nfs }

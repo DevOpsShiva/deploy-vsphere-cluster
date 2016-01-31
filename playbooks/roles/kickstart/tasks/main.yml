@@ -39,10 +39,7 @@
   become: no
 
 - name: Export mac addresses to kickstart files (hostname.cfg)
-  #local_action: command echo "{{ hostvars[play_hosts]['hw_eth0']['macaddress'] }}\\t{{ item }}" >> /home/sotani/create-nested-esxi/hostname.cfg
-  #local_action: shell echo "{{ hostvars[inventory_hostname]['hw_eth0']['macaddress'] }}\\t{{ hostname }}" >> {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/hostname.cfg
-  #local_action: shell echo "{{ hostvars[inventory_hostname]['hw_eth0']['macaddress'] }}\\t{{ item.1 }}" >> {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/hostname.cfg
-  local_action: shell echo "{{ hostvars[item.key]['hw_eth0']['macaddress'] }}\\t{{ item.value.hostname }}" >> {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/hostname.cfg
+  local_action: shell echo "{{ hostvars[item.key]['hw_eth0']['macaddress'] }}\\t{{ item.value.hostsname }}" >> {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/hostname.cfg
   become: no
   with_dict: "{{ vm_config }}"
   run_once: true
@@ -59,7 +56,7 @@
 
 - name: Export IP addresses to kickstart file (ip.cfg)
   #local_action: shell echo "{{ item.1 }}\\t\\tvmk0\\t\\t{{ ipaddress }}" >>  {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/ip.cfg
-  local_action: shell echo "{{ item.key }}\\t\\tvmk0\\t\\t{{ item.value.mgmt_ip_addr }}" >>  {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/ip.cfg
+  local_action: shell echo "{{ item.value.hostsname }}\\t\\tvmk0\\t\\t{{ item.value.mgmt_ip_addr }}" >>  {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/ip.cfg
   run_once: true
   become: no
   with_dict: "{{ vm_config }}"

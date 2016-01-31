@@ -1,7 +1,21 @@
+- name: Add hosts to in-memory inventory
+  hosts: localhost
+  gather_facts: false
+  any_errors_fatal: true
+  become: false
+  connection: local
+  user: remote
+  vars_files:
+   - /home/sotani/deploy-vsphere-cluster/vars/{{ project_name }}.yml
+  tasks:
+   - local_action: add_host name="{{ item.key }}" group=vms
+     with_dict: "{{ vm_config }}"
+     changed_when: False
+
 - hosts: vms
   gather_facts: false
   any_errors_fatal: true
-  sudo: false
+  become: false
   connection: local
   user: remote
   vars_files:

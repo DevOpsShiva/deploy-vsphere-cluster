@@ -1,7 +1,7 @@
 - name: Create Tenant-DVS dvswitch
   local_action:
     module: vmware_dvswitch
-    hostname: "{{ vcsa_hostname }}"
+    hostname: "{{ inventory_hostname }}"
     username: "{{ vcsa_username }}"
     password: "{{ vcsa_password }}"
     datacenter_name: "{{ vcsa_datacenter }}"
@@ -16,7 +16,7 @@
 - name: Create Public-DVS dvswitch
   local_action:
     module: vmware_dvswitch
-    hostname: "{{ vcsa_hostname }}"
+    hostname: "{{ inventory_hostname }}"
     username: "{{ vcsa_username }}"
     password: "{{ vcsa_password }}"
     datacenter_name: "{{ vcsa_datacenter }}"
@@ -31,7 +31,7 @@
 - name: Create Public portgroup
   local_action:
     module: vmware_dvs_portgroup
-    hostname: "{{ vcsa_hostname }}"
+    hostname: "{{ inventory_hostname }}"
     username: "{{ vcsa_username }}"
     password: "{{ vcsa_password }}"
     portgroup_name: Public

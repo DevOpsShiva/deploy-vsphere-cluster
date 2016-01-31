@@ -30,7 +30,7 @@
 - name: Add Host to Clusters
   local_action:
     module: vmware_host
-    hostname: "{{ vcsa_hostname }}"
+    hostname: "{{ inventory_hostname }}"
     username: "{{ vcsa_username }}"
     password: "{{ vcsa_password }}"
     datacenter_name: "{{ vcsa_datacenter }}"
@@ -41,6 +41,6 @@
     state: present
   with_subelements:
   - cluster_list
-  - esxi.hosts
+  - esxi.fqdn
   ignore_errors: yes
 

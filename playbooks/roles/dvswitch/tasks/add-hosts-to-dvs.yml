@@ -1,7 +1,7 @@
 - name: Add Hosts to Tenant dVS
   local_action:
     module: vmware_dvs_host
-    hostname: "{{ vcsa_hostname }}"
+    hostname: "{{ inventory_hostname }}"
     username: "{{ vcsa_username }}"
     password: "{{ vcsa_password }}"
     esxi_hostname: "{{ item.1 }}"
@@ -11,13 +11,13 @@
     state: present
   with_subelements:
   - cluster_list
-  - esxi.hosts
+  - esxi.fqdn
   ignore_errors: yes
 
 - name: Add Hosts to Public dVS
   local_action:
     module: vmware_dvs_host
-    hostname: "{{ vcsa_hostname }}"
+    hostname: "{{ inventory_hostname }}"
     username: "{{ vcsa_username }}"
     password: "{{ vcsa_password }}"
 #    esxi_hostname: "{{ inventory_hostname }}"
@@ -28,6 +28,6 @@
     state: present
   with_subelements:
   - cluster_list
-  - esxi.hosts
+  - esxi.fqdn
   ignore_errors: yes
 

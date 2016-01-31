@@ -1,7 +1,6 @@
 #
 # Global Configuration
 #
-project_name: Test
 #
 # Nested ESXi Common Configuration
 esxi_username : root
@@ -20,32 +19,40 @@ vm_config:
     cpucount : 4
     memory_size : 8192
     disk_size : 8
-    hostname: host078.sotani.local
+    hostsname: host078
     mgmt_ip_addr: 192.168.3.78
+    vmotion_ip_addr: 192.168.4.78
+    storage_ip_addr: 192.168.5.78
   HOST096-60U1:
     deploy_target_esxi: 192.168.3.3
     deploy_target_datastore: Local-003
     cpucount : 4
     memory_size : 8192
     disk_size : 8
-    hostname: host096.sotani.local
+    hostsname: host096
     mgmt_ip_addr: 192.168.3.96
+    vmotion_ip_addr: 192.168.4.96
+    storage_ip_addr: 192.168.5.96
   HOST085-60U1:
     deploy_target_esxi: 192.168.3.4
     deploy_target_datastore: Local-004
     cpucount : 4
     memory_size : 8192
     disk_size : 8
-    hostname: host085.sotani.local
+    hostsname: host085
     mgmt_ip_addr: 192.168.3.85
+    vmotion_ip_addr: 192.168.4.85
+    storage_ip_addr: 192.168.5.85
   HOST097-60U1:
     deploy_target_esxi: 192.168.3.4
     deploy_target_datastore: Local-004
     cpucount : 4
     memory_size : 8192
     disk_size : 8
-    hostname: host097.sotani.local
+    hostsname: host097
     mgmt_ip_addr: 192.168.3.97
+    vmotion_ip_addr: 192.168.4.97
+    storage_ip_addr: 192.168.5.97
 #
 # Nested ESXi Network Configuration
 #
@@ -55,15 +62,23 @@ vmnic2_portgroup : PG-Storage
 vmnic3_portgroup : PG-Tenant
 vmnic4_portgroup : PG-Public
 #
-# vCenter Server Appliace Configuration
+# vCSA Common Configuration
 #
 vcsa_iso_path : /mnt/nfs/ISO/vCenter/6.0.0U1b/VMware-VCSA-all-6.0.0-3343019.iso
 vcsa_ova : vcsa/vmware-vcsa
 ovftool :  /usr/bin/ovftool
+vcsa_username : administrator@vsphere.local
+vcsa_password : VMware1!
+vcsa_sso_password : VMware1!
+vcsa_root_password : VMware1!
+vcsa_datacenter : DATACENTER
+#
+# vCSA Appliance Configuration
+#
 vcsa_config:
   VC125-60U1:
-    vcsa_deploy_target_esxi : 192.168.3.4
-    vcsa_deploy_target_datastore : Local-004
+    vcsa_deploy_target_esxi : 192.168.3.5
+    vcsa_deploy_target_datastore : Local-005
     vcsa_hostname : vc125.sotani.local
     vcsa_ip_address : 192.168.3.125
     vcsa_ip_netmask : 255.255.255.0
@@ -72,22 +87,17 @@ vcsa_config:
     vcsa_ntp: 192.168.3.106
     vcsa_portgroup : "VM Network"
     vcsa_ssh_enable : True
-    vcsa_resource_pool : Commons/{{ project_name }}
+    vcsa_resource_pool : Commons/Test
     vcsa_deployment_option : tiny
     vcsa_sso_domain_name : vsphere.local
     vcsa_sso_site_name : Default-First-Site
-    vcsa_username : administrator@vsphere.local
-    vcsa_password : VMware1!
-    vcsa_sso_password : VMware1!
-    vcsa_root_password : VMware1!
-vcsa_datacenter : DATACENTER
+#
+# Cluster Configuration
+#
 cluster_list:
   - name: Management Cluster
     esxi:
-#      deploy_target:
-#        - 192.168.3.3
-#        - 192.168.3.3
-      hosts:
+      fqdn:
         - host078.sotani.local
         - host096.sotani.local
       ipaddr:
@@ -95,13 +105,15 @@ cluster_list:
         - 192.168.3.96
   - name: Compute Cluster
     esxi:
-      hosts:
+      fqdn:
         - host097.sotani.local
         - host085.sotani.local
       ipaddr:
         - 192.168.3.97
         - 192.168.3.85
-
+#
+# DVS Configuration
+#
 tenant_dvs : Tenant-DVS
 public_dvs : Public-DVS
 #
@@ -125,3 +137,8 @@ kickstart_nfs_server: 192.168.5.99
 kickstart_dir_path: /KS
 nfs_server_dir_path: /mnt/DroboFS/Shares/NFS
 iso_nfs_server: 192.168.5.99
+nesting_esxi:
+  192.168.3.2:
+  192.168.3.3:
+  192.168.3.4:
+  192.168.3.5:

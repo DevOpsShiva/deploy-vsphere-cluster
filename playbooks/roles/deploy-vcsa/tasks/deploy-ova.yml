@@ -22,7 +22,7 @@
     --name='{{ item.key }}'
     --prop:guestinfo.cis.vmdir.domain-name='{{ item.value.vcsa_sso_domain_name }}'
     --prop:guestinfo.cis.vmdir.site-name='{{ item.value.vcsa_sso_site_name }}'
-    --prop:guestinfo.cis.vmdir.password='{{ item.value.vcsa_sso_password }}'
+    --prop:guestinfo.cis.vmdir.password='{{ vcsa_sso_password }}'
     --prop:guestinfo.cis.appliance.net.addr.family=ipv4
     --prop:guestinfo.cis.appliance.net.addr='{{ item.value.vcsa_ip_address }}'
     --prop:guestinfo.cis.appliance.net.pnid='{{ item.value.vcsa_hostname }}'
@@ -30,7 +30,7 @@
     --prop:guestinfo.cis.appliance.net.mode="static"
     --prop:guestinfo.cis.appliance.net.dns.servers='{{ item.value.vcsa_dns }}'
     --prop:guestinfo.cis.appliance.net.gateway='{{ item.value.vcsa_ip_gateway }}'
-    --prop:guestinfo.cis.appliance.root.passwd='{{ item.value.vcsa_root_password }}'
+    --prop:guestinfo.cis.appliance.root.passwd='{{ vcsa_root_password }}'
     --prop:guestinfo.cis.appliance.ssh.enabled='{{ item.value.vcsa_ssh_enable }}'
     --prop:guestinfo.cis.appliance.ntp.servers='{{ item.value.vcsa_ntp }}'
     '{{ iso_mount_dir_path }}/{{ vcsa_ova }}'

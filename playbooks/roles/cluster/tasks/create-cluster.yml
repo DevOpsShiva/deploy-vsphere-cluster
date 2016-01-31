@@ -12,11 +12,10 @@
 # with_dict: "{{ cluster_list }}"
 #  ignore_errors: yes
 
-
 - name: Create Clusters
   local_action: >
      vmware_cluster
-     hostname="{{ vcsa_hostname }}"
+     hostname="{{ inventory_hostname }}"
      username="{{ vcsa_username }}"
      password="{{ vcsa_password }}"
      datacenter_name="{{ vcsa_datacenter }}"
@@ -26,5 +25,5 @@
      enable_vsan=False
   with_subelements:
    - cluster_list
-   - esxi.hosts
   ignore_errors: yes
+

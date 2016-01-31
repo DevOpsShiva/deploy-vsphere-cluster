@@ -59,9 +59,9 @@
   delegate_to: localhost
   with_dict: "{{ vm_config }}"
 
-- name: Add hosts to in-memory inventory
-  local_action: add_host name="{{ item.key }}" group=vms
-  with_dict: "{{ vm_config }}"
+#- name: Add hosts to in-memory inventory
+#  local_action: add_host name="{{ item.key }}" group=vms
+#  with_dict: "{{ vm_config }}"
 
 #- name: Write out to hosts
 #  lineinfile: dest={{ ansible_home }}/deploy-vsphere-cluster/{{ project_name }}.ini state=present line=[vms]
