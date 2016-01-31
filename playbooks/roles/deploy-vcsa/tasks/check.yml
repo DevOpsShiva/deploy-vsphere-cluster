@@ -7,7 +7,8 @@
 #  become: True
 
 - name: Wait until vCSA is ready
-  local_action: wait_for port=9443 host="{{ vcsa_ip_address }}"  delay=10 timeout=3600
+  local_action: wait_for port=9443 host="{{ item.value.vcsa_ip_address }}"  delay=10 timeout=3600
+  with_dict: "{{ vcsa_config }}"
 
 #- name: Confirm vCSA is ready
 #  debug: msg="vmware-vpxd {{ result.stdout}}

@@ -3,19 +3,16 @@
    vcenter_hostname: "{{ vcenter_hostname }}"
    username: "{{ vcenter_username }}"
    password: "{{ vcenter_password }}"
-   #guest: "{{ inventory_hostname }}"
-   guest: "{{ item.0.name }}"
+   guest: "{{ item.key }}"
    cluster: "{{ vcenter_cluster }}"
    resource_pool: "/Resources/{{ esxi_resource_pool }}"
    state: present
 #  vm_extra_config:
    vm_disk:
      disk1:
-       size_gb: "{{ disk_size }}"
+       size_gb: "{{ item.value.disk_size }}"
        type: thin
-       #datastore: "{{ deploy_target_datastore }}" 
-       #datastore: "{{ item.0.deploy_target_datastore }}"
-       datastore: Local-003
+       datastore: "{{ item.value.deploy_target_datastore }}"
    vm_nic:
      nic1:
        type: e1000
@@ -39,8 +36,8 @@
        network_type: standard
    vm_hw_version: vmx-08
    vm_hardware:
-     memory_mb: "{{ memory_size }}"
-     num_cpus: "{{ cpucount }}"
+     memory_mb: "{{ item.value.memory_size }}"
+     num_cpus: "{{ item.value.cpucount }}"
      osid: vmkernel5Guest
      scsi: lsi
      vm_cdrom:
@@ -48,10 +45,30 @@
        iso_path: "{{ esxi_iso_path }}"
    esxi:
      datacenter: "{{ vm_datacenter }}"
-     #hostname: "{{ deploy_target_esxi }}"
-     hostname: "{{ item.0.deploy_target.esxi }}"
-  with_subelements:
-  - vm_list
+     hostname: "{{ item.value.deploy_target_esxi }}"
+  with_dict: "{{ vm_config }}"
+
+- name: Gathering vmware_guest_facts
+  vsphere_guest:
+    vmware_guest_facts: yes
+    vcenter_hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    guest: "{{ item.key }}"
+  register: vmguest_facts
+  delegate_to: localhost
+  with_dict: "{{ vm_config }}"
+
+- name: Add hosts to in-memory inventory
+  local_action: add_host name="{{ item.key }}" group=vms
+  with_dict: "{{ vm_config }}"
+
+#- name: Write out to hosts
+#  lineinfile: dest={{ ansible_home }}/deploy-vsphere-cluster/{{ project_name }}.ini state=present line=[vms]
+
+#- name: Write out to hosts
+#  lineinfile:  dest={{ ansible_home }}/deploy-vsphere-cluster/{{ project_name }}.ini state=present line="{{ item.key }}"
+#  with_dict: "{{ vm_config }}"
 
 - name: Confirm
   pause:

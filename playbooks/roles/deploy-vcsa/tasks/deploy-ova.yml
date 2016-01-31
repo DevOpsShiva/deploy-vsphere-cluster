@@ -11,32 +11,38 @@
     --noSSLVerify
     --diskMode=thin
     --X:injectOvfEnv
-    --X:httpTimeout='{{ ovftool_http_timeout }}'
+    --X:httpTimeout=25
     --X:enableHiddenProperties
     --X:waitForIp
     --sourceType=OVA
     "--powerOn"
-    "--net:Network 1={{ vcsa_portgroup }}"
-    --datastore='{{ vcsa_deploy_target_datastore }}'
-    --deploymentOption='{{ vcsa_deployment_option }}'
-    --name='{{ vcsa_appliance_name }}'
-    --prop:guestinfo.cis.vmdir.domain-name='{{ vcsa_sso_domain_name }}'
-    --prop:guestinfo.cis.vmdir.site-name='{{ vcsa_sso_site_name }}'
-    --prop:guestinfo.cis.vmdir.password='{{ vcsa_sso_password }}'
+    "--net:Network 1={{ item.value.vcsa_portgroup }}"
+    --datastore='{{ item.value.vcsa_deploy_target_datastore }}'
+    --deploymentOption='{{ item.value.vcsa_deployment_option }}'
+    --name='{{ item.key }}'
+    --prop:guestinfo.cis.vmdir.domain-name='{{ item.value.vcsa_sso_domain_name }}'
+    --prop:guestinfo.cis.vmdir.site-name='{{ item.value.vcsa_sso_site_name }}'
+    --prop:guestinfo.cis.vmdir.password='{{ item.value.vcsa_sso_password }}'
     --prop:guestinfo.cis.appliance.net.addr.family=ipv4
-    --prop:guestinfo.cis.appliance.net.addr='{{ vcsa_ip_address }}'
-    --prop:guestinfo.cis.appliance.net.pnid='{{ vcsa_hostname }}'
-    --prop:guestinfo.cis.appliance.net.prefix='{{ vcsa_ip_netmask }}'
+    --prop:guestinfo.cis.appliance.net.addr='{{ item.value.vcsa_ip_address }}'
+    --prop:guestinfo.cis.appliance.net.pnid='{{ item.value.vcsa_hostname }}'
+    --prop:guestinfo.cis.appliance.net.prefix='{{ item.value.vcsa_ip_netmask }}'
     --prop:guestinfo.cis.appliance.net.mode="static"
-    --prop:guestinfo.cis.appliance.net.dns.servers='{{ dns_server1 }}'
-    --prop:guestinfo.cis.appliance.net.gateway='{{ vcsa_ip_gateway }}'
-    --prop:guestinfo.cis.appliance.root.passwd='{{ vcsa_root_password }}'
-    --prop:guestinfo.cis.appliance.ssh.enabled='{{ vcsa_ssh_enable }}'
-    --prop:guestinfo.cis.appliance.ntp.servers='{{ ntp_server }}'
+    --prop:guestinfo.cis.appliance.net.dns.servers='{{ item.value.vcsa_dns }}'
+    --prop:guestinfo.cis.appliance.net.gateway='{{ item.value.vcsa_ip_gateway }}'
+    --prop:guestinfo.cis.appliance.root.passwd='{{ item.value.vcsa_root_password }}'
+    --prop:guestinfo.cis.appliance.ssh.enabled='{{ item.value.vcsa_ssh_enable }}'
+    --prop:guestinfo.cis.appliance.ntp.servers='{{ item.value.vcsa_ntp }}'
     '{{ iso_mount_dir_path }}/{{ vcsa_ova }}'
-    vi://'{{ vcenter_username }}':'{{ vcenter_password }}'@'{{ vcenter_hostname }}'/'{{ vm_datacenter }}'/host/'{{ vcenter_cluster }}'/Resources/'{{ vcsa_resource_pool }}'/
+    vi://'{{ vcenter_username }}':'{{ vcenter_password }}'@'{{ vcenter_hostname }}'/'{{ vm_datacenter }}'/host/'{{ vcenter_cluster }}'/Resources/'{{ item.value.vcsa_resource_pool }}'/
   register: deploy_result
-  ignore_errors: True
-  failed_when: "deploy_result.stderr not in ['already exists.',] and deploy_result.rc != 0"
+  #https://github.com/ansible/ansible/pull/11174
+  #failed_when: "'already exists.' not in deploy_result.stdout or 'Completed successfully' not in deploy_result.stdout"
+  with_dict: "{{ vcsa_config }}"
+  ignore_errors: true
+  #changed_when: false
+
+- name: Debug message
+  debug:  var=deploy_result
 
 

@@ -10,7 +10,7 @@
 - name: Ensure nfs mount
   mount:
     name: "{{ nfs_mount_dir_path }}" 
-    src: 192.168.5.99:/mnt/DroboFS/Shares/NFS 
+    src: "{{ iso_nfs_server }}:{{ nfs_server_dir_path }}"
     fstype: nfs
     state: mounted
 

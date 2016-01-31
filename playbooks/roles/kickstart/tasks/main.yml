@@ -7,11 +7,12 @@
     guest: "{{ inventory_hostname }}"
   register: vmguest_facts
   delegate_to: localhost
-  become: no
+  #become: no
 
 - name: Report mac addresses
   debug: msg="{{ hostvars[inventory_hostname]['hw_eth0']['macaddress'] }}"
-  become: no
+  delegate_to: localhost
+  #become: no
 
 - name: Retrieve info about the mount directory
   stat: path= "{{ nfs_mount_dir_path }}"
@@ -24,38 +25,45 @@
   run_once: true
 
 - name: Ensure nfs mount
-  local_action: mount name="{{ nfs_mount_dir_path }}" src=192.168.5.99:/mnt/DroboFS/Shares/NFS fstype=nfs opts=nolock state=mounted
+  local_action: mount name="{{ nfs_mount_dir_path }}" src={{ kickstart_nfs_server }}:{{ nfs_server_dir_path }} fstype=nfs opts=nolock state=mounted
   run_once: true 
 
 - name: Preparing kickstart file (hostname.cfg)
-  local_action: shell echo "MMACADDR0\\tHOSTNAME" > /mnt/nfs/KS/hostname.cfg
+  local_action: shell echo "MMACADDR0\\tHOSTNAME" > {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/hostname.cfg
   run_once: true
   become: no
 
 - name: Preparing kickstart file (hostname.cfg)
-  local_action: shell echo "----------------------\\t---------------" >> /mnt/nfs/KS/hostname.cfg
+  local_action: shell echo "----------------------\\t---------------" >> {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/hostname.cfg 
   run_once: true
   become: no
 
 - name: Export mac addresses to kickstart files (hostname.cfg)
   #local_action: command echo "{{ hostvars[play_hosts]['hw_eth0']['macaddress'] }}\\t{{ item }}" >> /home/sotani/create-nested-esxi/hostname.cfg
-  local_action: shell echo "{{ hostvars[inventory_hostname]['hw_eth0']['macaddress'] }}\\t{{ hostname }}" >> /mnt/nfs/KS/hostname.cfg
+  #local_action: shell echo "{{ hostvars[inventory_hostname]['hw_eth0']['macaddress'] }}\\t{{ hostname }}" >> {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/hostname.cfg
+  #local_action: shell echo "{{ hostvars[inventory_hostname]['hw_eth0']['macaddress'] }}\\t{{ item.1 }}" >> {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/hostname.cfg
+  local_action: shell echo "{{ hostvars[item.key]['hw_eth0']['macaddress'] }}\\t{{ item.value.hostname }}" >> {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/hostname.cfg
   become: no
+  with_dict: "{{ vm_config }}"
+  run_once: true
 
 - name: Preparing kickstart file (ip.cfg)
-  local_action: shell echo "HOSTNAM\\tVMKernel\\tIP" > /mnt/nfs/KS/ip.cfg
+  local_action: shell echo "HOSTNAME\\tVMKernel\tIP" > {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/ip.cfg
   run_once: true
   become: no
 
 - name: Preparing kickstart file (ip.cfg)
-  local_action: shell echo "------------\\t---------------\\t-----------" >>  /mnt/nfs/KS/ip.cfg
+  local_action: shell echo "------------\\t---------------\\t-----------" >> {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/ip.cfg
   run_once: true
   become: no
 
 - name: Export IP addresses to kickstart file (ip.cfg)
-  local_action: shell echo "{{ hostname }}\\t\\tvmk0\\t\\t{{ ipaddress }}" >>  /mnt/nfs/KS/ip.cfg
+  #local_action: shell echo "{{ item.1 }}\\t\\tvmk0\\t\\t{{ ipaddress }}" >>  {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/ip.cfg
+  local_action: shell echo "{{ item.key }}\\t\\tvmk0\\t\\t{{ item.value.mgmt_ip_addr }}" >>  {{ nfs_mount_dir_path }}{{ kickstart_dir_path }}/ip.cfg
+  run_once: true
   become: no
+  with_dict: "{{ vm_config }}"
 
-#- name: Unmount NFS server
-#  local_action: mount name="{{ nfs_mount_dir_path }}" src=192.168.5.99:/mnt/DroboFS/Shares/NFS fstype=nfs  state=unmounted
-#  run_once: true
+- name: Unmount NFS server
+  local_action: mount name="{{ nfs_mount_dir_path }}" src={{ kickstart_nfs_server }}:{{ nfs_server_dir_path }} fstype=nfs  state=unmounted
+  run_once: true

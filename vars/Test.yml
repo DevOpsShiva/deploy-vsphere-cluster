@@ -1,68 +1,113 @@
 #
-# Nested ESXi Configuration
+# Global Configuration
 #
 project_name: Test
+#
+# Nested ESXi Common Configuration
+esxi_username : root
+esxi_password : VMware1!
 esxi_iso_path : NFS-Remote1/ISO/ESXi/6.0.0U1a/CUSTOM-VMware-VMvisor-Installer-6.0.0.update01-3073146.x86_64.iso
-cpucount : 4
-memory_size : 8192
-disk_size : 8
 esxi_resource_pool : Commons/Test
+nfs_storage : 192.168.5.101
+#
+#
+# Nested ESXi Hardware Configuration
+#
+vm_config:
+  HOST078-60U1:
+    deploy_target_esxi: 192.168.3.3
+    deploy_target_datastore: Local-003
+    cpucount : 4
+    memory_size : 8192
+    disk_size : 8
+    hostname: host078.sotani.local
+    mgmt_ip_addr: 192.168.3.78
+  HOST096-60U1:
+    deploy_target_esxi: 192.168.3.3
+    deploy_target_datastore: Local-003
+    cpucount : 4
+    memory_size : 8192
+    disk_size : 8
+    hostname: host096.sotani.local
+    mgmt_ip_addr: 192.168.3.96
+  HOST085-60U1:
+    deploy_target_esxi: 192.168.3.4
+    deploy_target_datastore: Local-004
+    cpucount : 4
+    memory_size : 8192
+    disk_size : 8
+    hostname: host085.sotani.local
+    mgmt_ip_addr: 192.168.3.85
+  HOST097-60U1:
+    deploy_target_esxi: 192.168.3.4
+    deploy_target_datastore: Local-004
+    cpucount : 4
+    memory_size : 8192
+    disk_size : 8
+    hostname: host097.sotani.local
+    mgmt_ip_addr: 192.168.3.97
+#
+# Nested ESXi Network Configuration
+#
 vmnic0_portgroup : VM Network
 vmnic1_portgroup : PG-vMotion
 vmnic2_portgroup : PG-Storage
 vmnic3_portgroup : PG-Tenant
 vmnic4_portgroup : PG-Public
-esxi_username : root
-esxi_password : VMware1!
-nfs_storage : 192.168.5.101
 #
 # vCenter Server Appliace Configuration
 #
 vcsa_iso_path : /mnt/nfs/ISO/vCenter/6.0.0U1b/VMware-VCSA-all-6.0.0-3343019.iso
 vcsa_ova : vcsa/vmware-vcsa
 ovftool :  /usr/bin/ovftool
-ovftool_http_timeout : 25
-vcsa_deploy_target_esxi : 192.168.3.4
-vcsa_deploy_target_datastore : Local-004
-vcsa_resource_pool : Commons/{{ project_name }}
-vcsa_deployment_option : tiny
-vcsa_appliance_name : VC125-60U1
-vcsa_portgroup : "VM Network"
-vcsa_sso_domain_name : vsphere.local
-vcsa_sso_site_name : Default-First-Site
-vcsa_sso_password : VMware1!
-vcsa_ip_address : 192.168.3.125
-vcsa_hostname : vc125.sotani.local
-vcsa_ip_netmask : 255.255.255.0
-vcsa_ip_gateway : 192.168.3.1
-vcsa_root_password : VMware1!
-vcsa_ssh_enable : True
-vcsa_username : administrator@vsphere.local
-vcsa_password : VMware1!
+vcsa_config:
+  VC125-60U1:
+    vcsa_deploy_target_esxi : 192.168.3.4
+    vcsa_deploy_target_datastore : Local-004
+    vcsa_hostname : vc125.sotani.local
+    vcsa_ip_address : 192.168.3.125
+    vcsa_ip_netmask : 255.255.255.0
+    vcsa_ip_gateway : 192.168.3.1
+    vcsa_dns: 192.168.3.103
+    vcsa_ntp: 192.168.3.106
+    vcsa_portgroup : "VM Network"
+    vcsa_ssh_enable : True
+    vcsa_resource_pool : Commons/{{ project_name }}
+    vcsa_deployment_option : tiny
+    vcsa_sso_domain_name : vsphere.local
+    vcsa_sso_site_name : Default-First-Site
+    vcsa_username : administrator@vsphere.local
+    vcsa_password : VMware1!
+    vcsa_sso_password : VMware1!
+    vcsa_root_password : VMware1!
 vcsa_datacenter : DATACENTER
-vm_list:
-  - name: HOST078-60U1
-    deploy_target:
-      esxi: 192.168.3.3
-      datastore: Local-003
-  - name: HOST096-60U1    
-    deploy_target:
-      esxi: 192.168.3.3
-      datastore: Local-003
 cluster_list:
   - name: Management Cluster
     esxi:
-      vmname:
-        - HOST078-60U1
-        - HOST096-60U1
+#      deploy_target:
+#        - 192.168.3.3
+#        - 192.168.3.3
       hosts:
         - host078.sotani.local
         - host096.sotani.local
+      ipaddr:
+        - 192.168.3.78
+        - 192.168.3.96
+  - name: Compute Cluster
+    esxi:
+      hosts:
+        - host097.sotani.local
+        - host085.sotani.local
+      ipaddr:
+        - 192.168.3.97
+        - 192.168.3.85
+
 tenant_dvs : Tenant-DVS
 public_dvs : Public-DVS
 #
 # Infrastructure Common Configuration
 #
+ansible_home: "{{ lookup('env','ANSIBLE_HOME') }}"
 ansible_user : root
 ansible_ssh_pass : VMware1!
 vcenter_hostname : 192.168.3.100
@@ -76,3 +121,7 @@ domain_name : sotani.local
 dns_server1 : 192.168.3.103
 dns_server2 : 192.168.3.106
 ntp_server : ntp.sotani.local
+kickstart_nfs_server: 192.168.5.99
+kickstart_dir_path: /KS
+nfs_server_dir_path: /mnt/DroboFS/Shares/NFS
+iso_nfs_server: 192.168.5.99
