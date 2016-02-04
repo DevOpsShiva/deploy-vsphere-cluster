@@ -33,6 +33,7 @@
     switch_name: vSwitch1
     nic_name: vmnic1
     mtu: 8000
+    state: present
   ignore_errors: yes
 
 - name: Add vMotion vmkernel port (vmk1)
@@ -60,6 +61,7 @@
     switch_name: vSwitch2
     nic_name: vmnic2
     mtu: 8000
+    state: present
   ignore_errors: yes
 
 - name: Add Storage vmkernel port (vmk2)
