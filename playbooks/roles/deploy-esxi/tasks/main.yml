@@ -17,23 +17,23 @@
      nic1:
        type: e1000
        network: "{{ vmnic0_portgroup }}"
-       network_type: standard
+       network_type: "{{ network_type }}"
      nic2:
        type: e1000
        network: "{{ vmnic1_portgroup }}"
-       network_type: standard
+       network_type: "{{ network_type }}"
      nic3:
        type: e1000
        network: "{{ vmnic2_portgroup }}"
-       network_type: standard
+       network_type: "{{ network_type }}"
      nic4:
        type: e1000
        network: "{{ vmnic3_portgroup }}"
-       network_type: standard
+       network_type: "{{ network_type }}"
      nic5:
        type: e1000
        network: "{{ vmnic4_portgroup }}"
-       network_type: standard
+       network_type: "{{ network_type }}"
    vm_hw_version: vmx-08
    vm_hardware:
      memory_mb: "{{ item.value.memory_size }}"
