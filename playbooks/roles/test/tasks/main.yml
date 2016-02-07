@@ -1,14 +1,14 @@
-- name: Test
 - name: Create Port Group
-	local_action: >
-		vPortgroup
-		hostname="{{ item.value.vcsa_hostname }}" username="{{ vcsa_username }}" root password="{{ vcsa_password }}"
-		vsphere_port="443"
-                vds_name=Public-DVS
-		port_group_name="test_port_grp1"
-		num_ports="8"
-                vlan=0
-                state: present
-  with_dict: "{{ vcsa_config }}"
-
+  local_action:
+    module: vcenter_portgroup
+    hostname: 192.168.3.125
+    username: administrator@vsphere.local
+    password: "VMware1!"
+    vs_port: "443"
+    vds_name: "Public-DVS"
+    port_group_name: "test_port_grp1"
+    numPorts: "8"
+    port_binding: static
+    port_allocation: elastic
+    state: present
 
