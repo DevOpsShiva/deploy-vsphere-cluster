@@ -1,0 +1,22 @@
+
+pyVim/connect.py
+-         sock = requests.get(url)
++         sock = requests.get(url, verify=False)
+
+http://d.hatena.ne.jp/yuheiomori0718/20130126/1359173295
+
+ssl.py
+- def get_server_certificate(addr, ssl_version=PROTOCOL_SSLv3, ca_certs=None):
++ def get_server_certificate(addr, ssl_version=PROTOCOL_TLSv1, ca_certs=None):
+
+apt-get install libssl-dev && pip install cryptography
+sudo pip install pycrypto paramiko
+
+"/usr/local/lib/python2.7/dist-packages/requests/packages/urllib3/connectionpool.py"
+        if not conn.is_verified:
+            requests.packages.urllib3.disable_warnings()
+            warnings.warn((
+                'Unverified HTTPS request is being made. '
+                'Adding certificate verification is strongly advised. See: '
+                'https://urllib3.readthedocs.org/en/latest/security.html'),
+                InsecureRequestWarning)
