@@ -57,11 +57,11 @@ vm_config:
 # Nested ESXi Network Configuration
 #
 network_type: dvs
-vmnic0_portgroup : VM Network (dvSwitch0)
-vmnic1_portgroup : PG-vMotion (dvSwitch1)
-vmnic2_portgroup : PG-Storage (dvSwitch1)
-vmnic3_portgroup : PG-Tenant (dvSwitch1)
-vmnic4_portgroup : PG-Public (dvSwitch0)
+vmnic0_portgroup : VM Network
+vmnic1_portgroup : PG-vMotion
+vmnic2_portgroup : PG-Storage
+vmnic3_portgroup : PG-Tenant
+vmnic4_portgroup : PG-Public
 #
 # vCSA Common Configuration
 #
