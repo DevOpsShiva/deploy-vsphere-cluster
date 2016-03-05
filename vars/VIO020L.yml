@@ -1,0 +1,210 @@
+#
+# Global Configuration
+#
+#
+# Nested ESXi Common Configuration
+esxi_username : root
+esxi_password : VMware1!
+esxi_iso_path : NFS-Remote1/ISO/ESXi/6.0.0U1a/CUSTOM-VMware-VMvisor-Installer-6.0.0.update01-3073146.x86_64.iso
+esxi_resource_pool : LAB.LOCAL/VIO020-201
+nfs_storage : 192.168.5.101
+#
+#
+# Nested ESXi Hardware Configuration
+#
+vm_config:
+  HOST070L-60U1:
+    deploy_target_esxi: 192.168.3.5
+    deploy_target_datastore: Local-005
+    cpucount : 8
+    memory_size : 16384
+    disk_size : 8
+    hostsname: host070
+    mgmt_ip_addr: 192.168.201.70
+    vmotion_ip_addr: 192.168.204.70
+    storage_ip_addr: 192.168.5.70
+  HOST071L-60U1:
+    deploy_target_esxi: 192.168.3.5
+    deploy_target_datastore: Local-005
+    cpucount : 8
+    memory_size : 16384
+    disk_size : 8
+    hostsname: host071
+    mgmt_ip_addr: 192.168.201.71
+    vmotion_ip_addr: 192.168.204.71
+    storage_ip_addr: 192.168.5.71
+  HOST072L-60U1:
+    deploy_target_esxi: 192.168.3.5
+    deploy_target_datastore: Local-005
+    cpucount : 8
+    memory_size : 16384
+    disk_size : 8
+    hostsname: host072
+    mgmt_ip_addr: 192.168.201.72
+    vmotion_ip_addr: 192.168.204.72
+    storage_ip_addr: 192.168.5.72
+  HOST073L-60U1:
+    deploy_target_esxi: 192.168.3.3
+    deploy_target_datastore: Local-003
+    cpucount : 8
+    memory_size : 16384
+    disk_size : 8
+    hostsname: host073
+    mgmt_ip_addr: 192.168.201.73
+    vmotion_ip_addr: 192.168.204.73
+    storage_ip_addr: 192.168.5.73
+  HOST074L-60U1:
+    deploy_target_esxi: 192.168.3.3
+    deploy_target_datastore: Local-003
+    cpucount : 8
+    memory_size : 16384
+    disk_size : 8
+    hostsname: host074
+    mgmt_ip_addr: 192.168.201.74
+    vmotion_ip_addr: 192.168.204.74
+    storage_ip_addr: 192.168.5.74
+  HOST075L-60U1:
+    deploy_target_esxi: 192.168.3.3
+    deploy_target_datastore: Local-003
+    cpucount : 8
+    memory_size : 16384
+    disk_size : 8
+    hostsname: host075
+    mgmt_ip_addr: 192.168.201.75
+    vmotion_ip_addr: 192.168.204.75
+    storage_ip_addr: 192.168.5.75
+  HOST076L-60U1:
+    deploy_target_esxi: 192.168.3.4
+    deploy_target_datastore: Local-004
+    cpucount : 8
+    memory_size : 16384
+    disk_size : 8
+    hostsname: host076
+    mgmt_ip_addr: 192.168.201.76
+    vmotion_ip_addr: 192.168.204.76
+    storage_ip_addr: 192.168.5.76
+  HOST077L-60U1:
+    deploy_target_esxi: 192.168.3.2
+    deploy_target_datastore: Local-002
+    cpucount : 8
+    memory_size : 16384
+    disk_size : 8
+    hostsname: host077
+    mgmt_ip_addr: 192.168.201.77
+    vmotion_ip_addr: 192.168.204.77
+    storage_ip_addr: 192.168.5.77
+  HOST078L-60U1:
+    deploy_target_esxi: 192.168.3.2
+    deploy_target_datastore: Local-002
+    cpucount : 8
+    memory_size : 16384
+    disk_size : 8
+    hostsname: host078
+    mgmt_ip_addr: 192.168.201.78
+    vmotion_ip_addr: 192.168.204.78
+    storage_ip_addr: 192.168.5.78
+#
+# Nested ESXi Network Configuration
+#
+network_type: dvs
+vmnic0_portgroup : PG-LAB-MGMT
+vmnic1_portgroup : PG-LAB-vMotion
+vmnic2_portgroup : PG-Storage
+vmnic3_portgroup : PG-LAB-Tenant
+vmnic4_portgroup : PG-LAB-Public
+#
+# vCSA Common Configuration
+#
+vcsa_iso_path : /mnt/nfs/ISO/vCenter/6.0.0U1b/VMware-VCSA-all-6.0.0-3343019.iso
+vcsa_ova : vcsa/vmware-vcsa
+ovftool :  /usr/bin/ovftool
+vcsa_username : administrator@vsphere.local
+vcsa_password : VMware1!
+vcsa_sso_password : VMware1!
+vcsa_root_password : VMware1!
+vcsa_datacenter : DATACENTER
+#
+# vCSA Appliance Configuration
+#
+vcsa_config:
+  VC121L-60U1:
+    vcsa_deploy_target_esxi : 192.168.3.5
+    vcsa_deploy_target_datastore : Local-005
+    vcsa_hostname : vc121.lab.local
+    vcsa_ip_address : 192.168.201.121
+    vcsa_ip_netmask : 255.255.255.0
+    vcsa_ip_gateway : 192.168.201.1
+    vcsa_dns: 192.168.201.2
+    vcsa_ntp: 192.168.201.2
+    vcsa_portgroup : "PG-LAB-MGMT"
+    vcsa_ssh_enable : True
+    vcsa_resource_pool : LAB.LOCAL/VIO020-201
+    vcsa_deployment_option : tiny
+    vcsa_sso_domain_name : vsphere.local
+    vcsa_sso_site_name : Default-First-Site
+#
+# Cluster Configuration
+#
+cluster_list:
+  - name: Management Cluster
+    esxi:
+      fqdn:
+        - host070.lab.local
+        - host071.lab.local
+        - host072.lab.local
+        - host073.lab.local
+        - host074.lab.local
+      ipaddr:
+        - 192.168.201.70
+        - 192.168.201.71
+        - 192.168.201.72
+        - 192.168.201.73
+        - 192.168.201.74
+  - name: Edge Cluster
+    esxi:
+      fqdn:
+        - host075.lab.local
+        - host076.lab.local
+      ipaddr:
+        - 192.168.201.75
+        - 192.168.201.76
+  - name: Compute Cluster 1
+    esxi:
+      fqdn:
+        - host077.lab.local
+        - host078.lab.local
+      ipaddr:
+        - 192.168.201.77
+        - 192.168.201.78
+#
+# DVS Configuration
+#
+tenant_dvs : Tenant-DVS
+public_dvs : Public-DVS
+#
+# Infrastructure Common Configuration
+#
+ansible_home: "{{ lookup('env','ANSIBLE_HOME') }}"
+ansible_user : root
+ansible_ssh_pass : VMware1!
+vcenter_hostname : 192.168.3.100
+vcenter_username : administrator
+vcenter_password : VMware1!
+vm_datacenter : HOME
+vcenter_cluster : CLUSTER
+nfs_mount_dir_path : /mnt/nfs/
+iso_mount_dir_path : /mnt/ISO
+domain_name : lab.local
+dns_server1 : 192.168.3.103
+dns_server2 : 192.168.3.106
+ntp_server : 192.168.201.2
+datastore_nfs: 192.168.3.101
+kickstart_nfs_server: 192.168.5.99
+kickstart_dir_path: /KS
+nfs_server_dir_path: /mnt/DroboFS/Shares/NFS
+iso_nfs_server: 192.168.5.99
+nesting_esxi:
+  192.168.3.2:
+  192.168.3.3:
+  192.168.3.4:
+  192.168.3.5:
